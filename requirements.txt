@@ -1,0 +1,16 @@
+numpy
+pandas
+psycopg2-binary
+mysql-connector-python
+flask_bcrypt
+flask_cors
+flask_restful
+flask_sqlalchemy
+flask-migrate
+scikit-learn
+matplotlib
+seaborn
+gunicorn
+tqdm
+python-dotenv
+#pip install -r requirements.txt

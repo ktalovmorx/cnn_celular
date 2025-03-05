@@ -1,0 +1,13 @@
+BOTON GUARDAR
+
+Cuando se pulsa guardar, en la carpeta donde esta la citologia se crea cuatro carpetas denominadas benigna, ascus, bajogrado y alto grado donde se guardan las celulas correspondientes. Ademas se crea un pdf con un informe de la citologia. El informe será esta misma imagen de la tabla con todas las imagenes de las celulas y de los textos.
+
+
+BOTON ELIMINAR.
+
+No guarda nada y te dirige a la pagina personal del paciente
+
+
+COLUMNAS.
+
+Se deberia hacer scroll vertical para poder ver el total de las celulas de cada columna. Al hacer click en una de las celulas se podrian aumentar al doble y al hacer otra vez click vuelve a su imagen original.

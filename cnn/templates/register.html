@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block title %}Regístrese{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class='container-fluid p-1 text-white text-center' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace;'>
+            <form action='/register' method='post' enctype='multipart/form-data'>
+                <div class='container-fluid' style='display:flex;flex-direction:column'>
+                    <div class='col-sm-3' style='padding:1px'>
+                        <input class='btn btn-outline-light text-dark btn-lg' type='file' name='file' style='font-size:9px;width:100%' aria-label='Select a file' required>
+                    </div>
+                    <div class='col-sm-3' style='padding:1px'>
+                        <input class='btn btn-light btn-lg' type='submit' value='Upload CV' style='font-size:9px;width:100%'>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

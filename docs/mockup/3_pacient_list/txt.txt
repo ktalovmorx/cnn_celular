@@ -1,0 +1,3 @@
+BOTON BUSCAR PACIENTE
+
+La busqueda seria por el apellido 1, por el numero del DNI con la letra o por el numero de telefono.

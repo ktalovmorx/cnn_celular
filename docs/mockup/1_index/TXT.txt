@@ -1,0 +1,1 @@
+Al acercar el ratón a las células y hacer click se inicia la aplicación
