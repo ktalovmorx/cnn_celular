@@ -1,3 +1,4 @@
-from cnn.models.profiles import Profile
-from cnn.models.oferts import Ofert
+# -*- coding: UTF-8 -*-
+#!/usr/bin/env python 
+
 from cnn.models.users import User

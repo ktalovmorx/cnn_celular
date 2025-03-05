@@ -24,12 +24,12 @@
 
 ```
     >>> psql
-    >>> CREATE USER tao WITH PASSWORD 'root';
-    >>> ALTER USER tao CREATEDB;
-    >>> ALTER USER tao WITH SUPERUSER;
-    >>> CREATE DATABASE recommender_system WITH OWNER = tao;
-    >>> GRANT ALL PRIVILEGES ON DATABASE recommender_system TO tao;
-    >>> COMMENT ON DATABASE recommender_system IS 'Base de datos de recomendacion';
+    >>> CREATE USER cnn WITH PASSWORD 'root';
+    >>> ALTER USER cnn CREATEDB;
+    >>> ALTER USER cnn WITH SUPERUSER;
+    >>> CREATE DATABASE cnn_model WITH OWNER = cnn;
+    >>> GRANT ALL PRIVILEGES ON DATABASE recommender_system TO cnn;
+    >>> COMMENT ON DATABASE recommender_system IS 'Base de datos de categorizacion de celulas';
 ```
 
 <h3>Inicializar la base de datos</h3>
@@ -41,7 +41,7 @@
 >>> flask db upgrade
 ```
 
-<h3>Para agregar una nueva tabla</h3>
+<h3>Actualiza base de datos</h3>
 
 ```
 >>> cd /D D:\SOFTNOW\PROYECTOS\cnn_project
@@ -55,6 +55,6 @@
 # Borrar la carpeta /migrations
 >>> cd /D D:\SOFTNOW\PROYECTOS\cnn_project
 >>> flask shell
->>> from recommender.models.commons import db
+>>> from cnn.models.commons import db
 >>> db.drop_all()
 ```

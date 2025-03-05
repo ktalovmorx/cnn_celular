@@ -9,7 +9,7 @@ class User(db.Model):
     Datos de usuarios
     '''
     
-    __tablename__ = 'recommender_users'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, comment="Identificador único de la oferta")
     username = db.Column(db.String(80), nullable=True, comment="Nombre de usuario")
