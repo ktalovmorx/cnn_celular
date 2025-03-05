@@ -65,8 +65,8 @@ def serve_static_files(filename):
     return send_from_directory(app.static_folder, filename)
 
 # Ruta para el diagnóstico
-@app.route('/diagnose', methods=['POST'])
-def diagnostico():
+@app.route('/pacient_diagnostic', methods=['POST'])
+def diagnosticar():
     file = request.files.get('image')
     if not file:
         return jsonify({'error': 'No se envió ninguna imagen'}), 400
@@ -95,25 +95,28 @@ def get_pacient_list():
     '''
     return render_template('pacient_list.html')
 
-@app.route('/register', methods=['POST'])
-def register():
+@app.route('/register', methods=['POST', 'GET'])
+def new_account():
     '''
     Registro de usuario
     '''
 
-    data = request.json
-    usermail = data['usermail']
-    password = data['password']
+    if request.method == 'GET':
+        return render_template('register.html'), 200
+    else:
+        data = request.json
+        usermail = data['usermail']
+        password = data['password']
 
-    # Hashear la contraseña
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        # Hashear la contraseña
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    # Guardar usuario en la base de datos
-    new_user = User(usermail=usermail, password_hash=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
+        # Guardar usuario en la base de datos
+        new_user = User(usermail=usermail, password_hash=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
 
-    return jsonify({'message': 'Usuario registrado con éxito'}), 201
+        return jsonify({'message': 'Usuario registrado con éxito'}), 201
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

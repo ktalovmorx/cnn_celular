@@ -1,18 +1,40 @@
 {% extends 'layout.html' %}
-{% block title %}Regístrese{% endblock %}
+{% block title %}Registro{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class='container-fluid p-1 text-white text-center' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace;'>
-            <form action='/register' method='post' enctype='multipart/form-data'>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a><img src="{{ url_for('static', filename='images/celulas.ico') }}" alt='Celulas' width=50>"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" title="...">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" style="font-size:36px">🏠 Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 50%;">
+        <div class='container-fluid p-1 text-white text-center' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>
+            <form class="form form-control" action='/register' method='post' enctype='multipart/form-data'>
                 <div class='container-fluid' style='display:flex;flex-direction:column'>
-                    <div class='col-sm-3' style='padding:1px'>
-                        <input class='btn btn-outline-light text-dark btn-lg' type='file' name='file' style='font-size:9px;width:100%' aria-label='Select a file' required>
-                    </div>
-                    <div class='col-sm-3' style='padding:1px'>
-                        <input class='btn btn-light btn-lg' type='submit' value='Upload CV' style='font-size:9px;width:100%'>
-                    </div>
+                    <label for="usermail" style="text-align: left;font-weight: bold;">Usuario</label>
+                    <input class="form form-control" type="email" id="usermail" name="usermail" required>
+                    <br>
+                    <label for="password" style="text-align: left;font-weight: bold;">Contraseña</label>
+                    <input class="form form-control" type="password" id="password" name="password" required>
+                    <br>
+                    <button class="btn btn-success" type="submit">Crear Cuenta</button>
+                    <br>
+                    <!-- Enlace para usuarios sin cuenta -->
+                    <a href="/login" style="color: #007bff; text-decoration: none;text-align: left;">Ya tengo una cuenta</a>
                 </div>
             </form>
         </div>
     </div>
+    
 {% endblock %}

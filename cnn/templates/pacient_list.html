@@ -1,6 +1,25 @@
 {% extends 'layout.html' %}
 {% block title %}Pacientes{% endblock %}
 {% block content %}
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a><img src="{{ url_for('static', filename='images/celulas.ico') }}" alt='Celulas' width=50>"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" title="...">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pacient_list" style="font-size:36px">🙋‍♂️ Pacientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pacient_diagnose" style="font-size:36px">🩺 Diagnósticos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <div class='container-fluid p-1 text-white text-center' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace;'>
             <div class='container-fluid' style='display:flex;flex-direction:column'>
