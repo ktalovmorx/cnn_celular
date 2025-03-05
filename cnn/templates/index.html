@@ -1,18 +1,7 @@
 {% extends 'layout.html' %}
-{% block title %}Categorizador Celular{% endblock %}
+{% block title %}Categorizador{% endblock %}
 {% block content %}
-    <div class="container">
-        <h1> Categorizador Celular </h1>
-
-        <div class='container-fluid p-1 text-white text-center' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace;'>
-            <div class='container-fluid p-1 bg-dark text-white text-center' style='border-radius:8px;width:100%'>
-                <a href='/login' style='color:white;text-decoration:none'>
-                    <span>
-                        <img src="{{ url_for('static', filename='images/index.png') }}" alt='TreeSys' width=25>
-                    </span>
-                    <span class='arrow col-md-12' style='font-size:10px;font-family: "OCR-A", monospace;'> </span>
-                </a>
-            </div>
-        </div>
+    <div class="container-fluid main_body">
+        <a class="app_title" href="/login"> Plataforma para el análisis y diagnóstico de las células cervicovaginales</a>
     </div>
 {% endblock %}

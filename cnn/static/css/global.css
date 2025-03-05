@@ -1,0 +1,39 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #053462 !important;
+}
+
+.main_body {
+    min-height: 100vh; /* Ocupar al menos el alto de la pantalla */
+    display: flex;
+    flex-direction: column; /* Asegura que los hijos se apilen correctamente */
+    justify-content: center; /* Centrar contenido si es necesario */
+    align-items: center; /* Centrar horizontalmente si es necesario */
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--homeMenu-bg-color, #e7e9ed) !important;
+    background-image: var(--homeMenu-bg-image, url('/static/images/index.png')) !important;
+}
+
+.app_title {
+    color: white;
+    position: fixed;
+    top: 0;
+    margin-top: 20px;
+    font-size: 38px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 1s ease;
+}
+.app_title:hover{
+    text-decoration: none;
+    color: white;
+    transform: scale(0.8);
+}
