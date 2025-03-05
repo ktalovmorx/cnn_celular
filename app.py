@@ -30,10 +30,6 @@ api = Api(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 
-# -- Crear carpeta static si es que no existe
-if not os.path.exists("static"):
-    os.makedirs("static")
-
 # -- Extensiones permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'dcm', 'tiff'}
 
