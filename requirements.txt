@@ -1,4 +1,8 @@
-numpy
+numpy==1.26.4
+tensorflow==2.15.0
+tensorflow-hub
+keras==2.15.0
+Pillow
 pandas
 psycopg2-binary
 mysql-connector-python
@@ -11,6 +15,5 @@ scikit-learn
 matplotlib
 seaborn
 gunicorn
-tqdm
 python-dotenv
 #pip install -r requirements.txt
