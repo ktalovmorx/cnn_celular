@@ -40,7 +40,7 @@ body{
 
 /* Efecto flecha centellante */
 .arrow {
-    position: fixed;
+    position: relative;
     top: 100px; /* Ajusta esta posición para que quede debajo del texto */
     left: 50%;
     transform: translateX(-50%); /* Centra la flecha */
