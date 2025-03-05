@@ -1,5 +1,6 @@
 
 <h3>Crear entorno virtual</h3>
+
 ```
     >>> cd cnn_project
     >>> python -m venv virtual
