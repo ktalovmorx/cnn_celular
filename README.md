@@ -35,6 +35,7 @@
 <h3>Inicializar la base de datos</h3>
 
 ```
+>>> cd /D D:\SOFTNOW\PROYECTOS\cnn_project
 >>> flask db init
 >>> flask db migrate -m "Initial migration"
 >>> flask db upgrade
@@ -43,6 +44,7 @@
 <h3>Para agregar una nueva tabla</h3>
 
 ```
+>>> cd /D D:\SOFTNOW\PROYECTOS\cnn_project
 >>> flask db migrate -m "Comentario del cambio"
 >>> flask db upgrade
 ```
@@ -51,6 +53,7 @@
 
 ```
 # Borrar la carpeta /migrations
+>>> cd /D D:\SOFTNOW\PROYECTOS\cnn_project
 >>> flask shell
 >>> from recommender.models.commons import db
 >>> db.drop_all()
