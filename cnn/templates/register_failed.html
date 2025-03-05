@@ -13,6 +13,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/" style="font-size:36px">🧬 Inicio</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login" style="font-size:36px">🔐 Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register" style="font-size:36px">📝 Registro</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -20,20 +26,9 @@
 
     <div class="container" style="max-width: 350px;">
         <div class='container-fluid p-1 text-white text-center' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>
-            <form class="form form-control" action='/login' method='post'>
-                <div class='container-fluid' style='display:flex;flex-direction:column'>
-                    <label for="usermail" style="text-align: left;font-weight: bold;">Usuario</label>
-                    <input class="form form-control" type="email" id="usermail" name="usermail" required>
-                    <br>
-                    <label for="password" style="text-align: left;font-weight: bold;">Contraseña</label>
-                    <input class="form form-control" type="password" id="password" name="password" required>
-                    <br>
-                    <button class="btn btn-success" type="submit">Iniciar sesión</button>
-                    <br>
-                    <!-- Enlace para usuarios sin cuenta -->
-                    <a href="/register" style="color: #007bff; text-decoration: none;text-align: left;">Aún no tengo una cuenta...</a>
-                </div>
-            </form>
+            <div class="alert alert-danger">
+                <strong>Error!</strong><a href="/register" class="alert-link">{{message}}</a>.
+            </div>
         </div>
     </div>
     

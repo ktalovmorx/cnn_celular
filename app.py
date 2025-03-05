@@ -8,6 +8,7 @@ from cnn.cnn_model import CNNModel
 from cnn import create_app
 from cnn.models import User
 from dotenv import load_dotenv
+from sqlalchemy.exc import IntegrityError
 load_dotenv()
 
 # -- Read .env file
@@ -96,23 +97,41 @@ def new_account():
     '''
     Registro de usuario
     '''
-
     if request.method == 'GET':
         return render_template('register.html'), 200
-    else:
-        data = request.json
-        usermail = data['usermail']
-        password = data['password']
+
+    try:
+        # Intentar obtener los datos desde JSON o Form
+        data = request.get_json() if request.is_json else request.form
+        usermail = data.get('usermail')
+        password = data.get('password')
+        username = data.get('username', '')  # Opcional
+        lastname = data.get('lastname', '')  # Opcional
+
+        # Validar datos obligatorios
+        if not usermail or not password:
+            return jsonify({'message': 'Correo y contraseña son obligatorios'}), 400
+
+        # Verificar si el usuario ya existe
+        existing_user = User.query.filter_by(usermail=usermail).first()
+        if existing_user:
+            return jsonify({'message': 'El correo ya está registrado'}), 409
 
         # Hashear la contraseña
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Guardar usuario en la base de datos
-        new_user = User(usermail=usermail, password_hash=hashed_password)
+        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname)
         db.session.add(new_user)
         db.session.commit()
 
-        return jsonify({'message': 'Usuario registrado con éxito'}), 201
+        return render_template('user_registered', message='Usuario registrado satisfactoriamente')
+
+    except IntegrityError:
+        db.session.rollback()
+        return render_template('register_failed', message='Usuario registrado satisfactoriamente')
+    except Exception as e:
+        return render_template('register_failed', message='Usuario registrado satisfactoriamente')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -125,14 +144,9 @@ def login():
     if request.method == 'GET':
         return render_template('login.html'), 200
     else:
-        data = request.get_json()
-
-        if not data or 'usermail' not in data or 'password' not in data:
-            return jsonify({'message': 'Debe establecer los campos del formulario'}), 400
-
         # -- Capturar los datos del formulario
-        usermail = data['usermail']
-        password = data['password']
+        usermail = request.form.get('usermail')
+        password = request.form.get('password')
 
         # Buscar al usuario en la base de datos
         user = User.query.filter_by(usermail=usermail).first()
