@@ -1,1 +1,6 @@
 virtual/
+cnn/train_benigna/
+cnn/train_altogrado/
+cnn/train_ascus/
+cnn/train_bajogrado/
+cnn/dataset/
