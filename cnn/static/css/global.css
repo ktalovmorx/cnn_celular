@@ -37,3 +37,26 @@ body{
     color: white;
     transform: scale(0.8);
 }
+
+/* Efecto flecha centellante */
+.arrow {
+    position: fixed;
+    top: 100px; /* Ajusta esta posición para que quede debajo del texto */
+    left: 50%;
+    transform: translateX(-50%); /* Centra la flecha */
+    font-size: 30px;
+    animation: blink 1s infinite; /* Animación de parpadeo */
+    margin-top: 10px;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

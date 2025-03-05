@@ -1,8 +1,7 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, json, url_for, redirect, flash, render_template
 import flask_bcrypt
 from flask_migrate import Migrate
 from flask_cors import CORS
-from flask import json, jsonify, request, url_for, redirect, Flask, flash, render_template
 from flask_restful import Resource, Api
 import os
 from cnn.cnn_model import CNNModel
@@ -20,6 +19,7 @@ except:
 
 # Crear la aplicación Flask
 app, db = create_app()
+app.secret_key = 'xxx123'
 
 #Manejar contraseñas de forma segura
 bcrypt = flask_bcrypt.Bcrypt(app)
@@ -89,6 +89,12 @@ def diagnostico():
     except Exception as e:
         return jsonify({'error': 'Ocurrió un error al procesar la imagen', 'details': str(e)}), 500
 
+@app.route('/pacient_list', methods=['POST'])
+def get_pacient_list():
+    '''
+    '''
+    return render_template('pacient_list.html')
+
 @app.route('/register', methods=['POST'])
 def register():
     '''
@@ -123,8 +129,9 @@ def login():
         data = request.get_json()
 
         if not data or 'usermail' not in data or 'password' not in data:
-            return jsonify({'message': 'Missing usermail or password'}), 400  # Bad request
+            return jsonify({'message': 'Debe establecer los campos del formulario'}), 400
 
+        # -- Capturar los datos del formulario
         usermail = data['usermail']
         password = data['password']
 
@@ -132,9 +139,11 @@ def login():
         user = User.query.filter_by(usermail=usermail).first()
 
         if user and bcrypt.check_password_hash(user.password_hash, password):
-            return jsonify({'message': 'Login successful'}), 200
+            flash('Inicio de sesión exitoso', 'success')
+            return redirect(url_for('get_pacient_list'))
         else:
-            return jsonify({'message': 'Incorrect username and/or password'}), 401
+            flash('Correo electrónico o contraseña incorrectos', 'error')
+            return redirect(url_for('main'))
     
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
