@@ -16,4 +16,5 @@ matplotlib
 seaborn
 gunicorn
 python-dotenv
+opencv-python
 #pip install -r requirements.txt
