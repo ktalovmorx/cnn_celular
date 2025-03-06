@@ -71,6 +71,7 @@ def serve_static_files(filename):
 
 # Ruta para el diagnóstico
 @app.route('/pacient_diagnostic', methods=['POST'])
+@login_required             # -- Restringe el acceso a usuarios autenticados
 def diagnosticar():
     file = request.files.get('image')
     if not file:
