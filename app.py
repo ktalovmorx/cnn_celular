@@ -124,8 +124,10 @@ def new_account():
         username = data.get('username', None) 
         lastname = data.get('lastname', None)
         role     = data.get('role', None)
+        dni      = data.get('dni', None)
+        address  = data.get('address', None)
 
-        if None in (usermail,password,username, lastname):
+        if None in (usermail,password,username, lastname, role):
             return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde ó contacte a un administrador'), 400
 
         # Verificar si el usuario ya existe
@@ -176,7 +178,7 @@ def login():
         # -- Redirigir al usuario a la página que intentaba acceder
         next_page = request.args.get('next')
 
-        if user.role == 'paciente':
+        if current_user.role == 'paciente':
             return redirect(next_page or url_for('get_pacient_page'))
         else:
             return redirect(next_page or url_for('get_pacient_list'))
