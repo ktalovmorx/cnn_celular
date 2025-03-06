@@ -155,7 +155,7 @@ def login():
             return redirect(url_for('get_pacient_list'))
         else:
             flash('Correo electrónico o contraseña incorrectos', 'error')
-            return redirect(url_for('main'))
+            return redirect(url_for('login'))
     
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
