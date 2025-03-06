@@ -10,6 +10,7 @@ from cnn.cnn_model import CNNModel
 from cnn import create_app
 from cnn.models import User
 from dotenv import load_dotenv
+from enum import Enum
 from sqlalchemy.exc import IntegrityError
 load_dotenv()
 
@@ -37,6 +38,10 @@ migrate = Migrate(app, db)
 
 # -- Extensiones permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'dcm', 'tiff'}
+
+class RoleEnum(Enum):
+    paciente = 'paciente'
+    doctor = 'doctor'
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -178,12 +183,13 @@ def login():
         # -- Redirigir al usuario a la página que intentaba acceder
         next_page = request.args.get('next')
 
-        if current_user.role == 'paciente':
+        if current_user.role == RoleEnum.paciente:
             return redirect(next_page or url_for('get_pacient_page'))
-        elif current_user.role == 'doctor':
+        elif current_user.role == RoleEnum.doctor:
             return redirect(next_page or url_for('get_pacient_list'))
         else:
-            print(f'Rol del usuario: {user.role}')  # Verifica el rol del usuario
+            logout_user()
+            return redirect(url_for('login'))
     else:
         flash('Correo electrónico o contraseña incorrectos', 'error')
         return redirect(url_for('login'))
