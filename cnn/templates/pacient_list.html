@@ -53,9 +53,9 @@
             </table>
         </div>
 
-        <div class="container" style="max-width: 450px;">
-            <div class="container-fluid p-3 text-white text-center" 
-                    style="border-radius:8px; margin-top:20px; font-family: 'OCR-A', monospace; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #343a40;">
+        <div class="container" name="nueva_paciente">
+            <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_pac">Nueva paciente</button>
+            <div id="new_pac" class="collapse">
                 <form class="form form-control" action="/register" method="post" onsubmit="return validatePasswords()">
                     <div class="container-fluid" style="display:flex; flex-direction:column">
                         <label for="username" style="text-align: left; font-weight: bold;">Nombre</label>
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    
+
     <script>
         function validatePasswords() {
             let password = document.getElementById("password").value;
