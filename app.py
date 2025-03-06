@@ -180,8 +180,10 @@ def login():
 
         if current_user.role == 'paciente':
             return redirect(next_page or url_for('get_pacient_page'))
-        else:
+        elif current_user.role == 'doctor':
             return redirect(next_page or url_for('get_pacient_list'))
+        else:
+            print(f'Rol del usuario: {user.role}')  # Verifica el rol del usuario
     else:
         flash('Correo electrónico o contraseña incorrectos', 'error')
         return redirect(url_for('login'))
