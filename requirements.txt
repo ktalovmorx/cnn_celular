@@ -11,6 +11,7 @@ flask_cors
 flask_restful
 flask_sqlalchemy
 flask-migrate
+flask-login
 scikit-learn
 matplotlib
 seaborn

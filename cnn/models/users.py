@@ -1,10 +1,9 @@
 # -*- coding: UTF-8 -*-
 #!/usr/bin/env python 
 
-from .commons import db
+from .commons import db, UserMixin
 
-
-class User(db.Model):
+class User(db.Model, UserMixin):
     '''
     Datos de usuarios
     '''

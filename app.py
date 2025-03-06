@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify, send_from_directory, json, url_for, redirect, flash, render_template
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import flask_bcrypt
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_restful import Resource, Api
+from flask_login import login_user
 import os
 from cnn.cnn_model import CNNModel
 from cnn import create_app
@@ -20,7 +22,9 @@ except:
 
 # Crear la aplicación Flask
 app, db = create_app()
-app.secret_key = 'xxx123'
+
+login_manager = LoginManager(app)
+login_manager.login_view = "login"  # -- Redirigir a la vista /login si no está autenticado
 
 #Manejar contraseñas de forma segura
 bcrypt = flask_bcrypt.Bcrypt(app)
@@ -33,6 +37,10 @@ migrate = Migrate(app, db)
 
 # -- Extensiones permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'dcm', 'tiff'}
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -86,7 +94,8 @@ def diagnosticar():
     except Exception as e:
         return jsonify({'error': 'Ocurrió un error al procesar la imagen', 'details': str(e)}), 500
 
-@app.route('/pacient_list', methods=['POST'])
+@app.route('/pacient_list', methods=['GET'])
+@login_required             # -- Restringe el acceso a usuarios autenticados
 def get_pacient_list():
     '''
     '''
@@ -151,11 +160,21 @@ def login():
         user = User.query.filter_by(usermail=usermail).first()
 
         if user and bcrypt.check_password_hash(user.password_hash, password):
+            # -- Iniciar sesión con Flask-Login
+            login_user(user)
+
             flash('Inicio de sesión exitoso', 'success')
             return redirect(url_for('get_pacient_list'))
         else:
             flash('Correo electrónico o contraseña incorrectos', 'error')
             return redirect(url_for('login'))
     
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Sesión cerrada', 'info')
+    return redirect(url_for('login'))
+
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
