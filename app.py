@@ -103,14 +103,13 @@ def new_account():
     try:
         # Intentar obtener los datos desde JSON o Form
         data = request.get_json() if request.is_json else request.form
-        usermail = data.get('usermail')
-        password = data.get('password')
-        username = data.get('username', '')  # Opcional
-        lastname = data.get('lastname', '')  # Opcional
+        usermail = data.get('usermail', None)
+        password = data.get('password', None)
+        username = data.get('username', None) 
+        lastname = data.get('lastname', None)
 
-        # Validar datos obligatorios
-        if not usermail or not password:
-            return jsonify({'message': 'Correo y contraseña son obligatorios'}), 400
+        if None in (usermail,password,username, lastname):
+            return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador')
 
         # Verificar si el usuario ya existe
         existing_user = User.query.filter_by(usermail=usermail).first()
@@ -125,13 +124,13 @@ def new_account():
         db.session.add(new_user)
         db.session.commit()
 
-        return render_template('user_registered', message='Usuario registrado satisfactoriamente')
+        return render_template('user_registered.html', message='Usuario registrado satisfactoriamente')
 
     except IntegrityError:
         db.session.rollback()
-        return render_template('register_failed', message='Usuario registrado satisfactoriamente')
+        return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador')
     except Exception as e:
-        return render_template('register_failed', message='Usuario registrado satisfactoriamente')
+        return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
