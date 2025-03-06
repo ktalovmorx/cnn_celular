@@ -38,6 +38,9 @@
                         <th>Apellido</th>
                         <th>Correo</th>
                         <th>Teléfono</th>
+                        <th>Fecha Nac.</th>
+                        <th>DNI</th>
+                        <th>Dirección</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +50,9 @@
                             <td>{{ paciente.lastname }}</td>
                             <td>{{ paciente.usermail }}</td>
                             <td>{{ paciente.phone_number }}</td>
+                            <td>{{ paciente.birthday }}</td>
+                            <td>{{ paciente.dni }}</td>
+                            <td>{{ paciente.address }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
