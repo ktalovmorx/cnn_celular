@@ -183,9 +183,9 @@ def login():
         # -- Redirigir al usuario a la página que intentaba acceder
         next_page = request.args.get('next')
 
-        if current_user.role == RoleEnum.paciente:
+        if user.role == RoleEnum.paciente:
             return redirect(next_page or url_for('get_pacient_page'))
-        elif current_user.role == RoleEnum.doctor:
+        elif user.role == RoleEnum.doctor:
             return redirect(next_page or url_for('get_pacient_list'))
         else:
             logout_user()
