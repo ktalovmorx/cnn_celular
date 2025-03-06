@@ -12,7 +12,15 @@ from cnn.models import User
 from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError
+import logging
 load_dotenv()
+
+# -- Configuración del logger
+logging.basicConfig(
+    level=logging.ERROR,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]"
+)
+_logger = logging.getLogger(__name__)
 
 # -- Read .env file
 try:
@@ -184,7 +192,7 @@ def login():
         next_page = request.args.get('next')
 
         print(user.role.value, RoleEnum.paciente.value, RoleEnum.doctor.value)
-        
+
         if user.role.value == RoleEnum.paciente.value:
             return redirect(next_page or url_for('get_pacient_page'))
         elif user.role.value == RoleEnum.doctor.value:
