@@ -111,6 +111,7 @@ def new_account():
         password = data.get('password', None)
         username = data.get('username', None) 
         lastname = data.get('lastname', None)
+        role     = data.get('role', None)
 
         if None in (usermail,password,username, lastname):
             return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde ó contacte a un administrador'), 400
@@ -124,7 +125,7 @@ def new_account():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Guardar usuario en la base de datos
-        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname)
+        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname, role=role)
         db.session.add(new_user)
         db.session.commit()
 

@@ -1,7 +1,10 @@
-# -*- coding: UTF-8 -*-
-#!/usr/bin/env python 
-
+from enum import Enum
 from .commons import db, UserMixin
+
+# Definir el Enum para los roles
+class RoleEnum(Enum):
+    paciente = 'paciente'
+    doctor = 'doctor'
 
 # -- Hereda UserMixin para compatibilidad con Flask-Login
 class User(db.Model, UserMixin):
@@ -16,6 +19,7 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(80), nullable=True, comment="Apellido del usuario")
     usermail = db.Column(db.String(120), unique=True, nullable=False, comment="Correo electrónico del usuario")
     password_hash = db.Column(db.String(128), nullable=False, comment="Contraseña del usuario")
+    role = db.Column(db.Enum(RoleEnum), nullable=False, default=RoleEnum.paciente, comment="Rol del usuario (paciente o doctor)")
 
     def __repr__(self):
-        return f'<User {self.usermail}>'
+        return f'<User {self.usermail}, Role: {self.role}>'
