@@ -109,12 +109,12 @@ def new_account():
         lastname = data.get('lastname', None)
 
         if None in (usermail,password,username, lastname):
-            return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador')
+            return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador'), 400
 
         # Verificar si el usuario ya existe
         existing_user = User.query.filter_by(usermail=usermail).first()
         if existing_user:
-            return jsonify({'message': 'El correo ya está registrado'}), 409
+            return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador'), 400
 
         # Hashear la contraseña
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -124,13 +124,13 @@ def new_account():
         db.session.add(new_user)
         db.session.commit()
 
-        return render_template('user_registered.html', message='Usuario registrado satisfactoriamente')
+        return render_template('user_registered.html', message='Usuario registrado satisfactoriamente'), 200
 
     except IntegrityError:
         db.session.rollback()
-        return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador')
+        return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador'), 400
     except Exception as e:
-        return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador')
+        return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde o contacte a un administrador'), 400
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
