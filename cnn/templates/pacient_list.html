@@ -24,9 +24,96 @@
     </nav>
 
     <div class='container-fluid' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace;'>
-        <div class='container-fluid' style='display:flex;flex-direction:column'>
-            <h3>Bienvenido, {{ user.username }}!</h3>
-            <p>Tu correo electrónico es: {{ user.usermail }}</p>
+        <div class='container-fluid' style='display:flex;flex-direction:column;padding:0px'>
+            <h3>Bienvenido, 🩺 {{ user.username }}!</h3>
+        </div>
+        <br/>
+        <h1>Lista de Pacientes</h1>
+
+        <div class="table-responsive" style="max-height:400px">
+            <table class="table table-hover table-stripped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                        <tr>
+                            <td>{{ paciente.username }}</td>
+                            <td>{{ paciente.lastname }}</td>
+                            <td>{{ paciente.usermail }}</td>
+                            <td>{{ paciente.phone_number }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container" style="max-width: 450px;">
+            <div class="container-fluid p-3 text-white text-center" 
+                    style="border-radius:8px; margin-top:20px; font-family: 'OCR-A', monospace; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #343a40;">
+                <form class="form form-control" action="/register" method="post" onsubmit="return validatePasswords()">
+                    <div class="container-fluid" style="display:flex; flex-direction:column">
+                        <label for="username" style="text-align: left; font-weight: bold;">Nombre</label>
+                        <input class="form-control" type="text" id="username" name="username" required>
+                        <br>
+                        
+                        <label for="lastname" style="text-align: left; font-weight: bold;">Apellido</label>
+                        <input class="form-control" type="text" id="lastname" name="lastname" required>
+                        <br>
+                        
+                        <label for="usermail" style="text-align: left; font-weight: bold;">Email</label>
+                        <input class="form-control" type="email" id="usermail" name="usermail" required>
+                        <br>
+    
+                        <label for="role" style="text-align: left; font-weight: bold;">Rol</label>
+                        <select name="role" id="role">
+                            <option value="paciente">Paciente</option>
+                            <option value="doctor">Doctor</option>
+                        </select>
+                        <br>
+    
+                        <label for="password" style="text-align: left; font-weight: bold;">Contraseña</label>
+                        <input class="form-control" type="password" id="password" name="password" required>
+                        <br>
+                        
+                        <label for="password_confirm" style="text-align: left; font-weight: bold;">Confirmar contraseña</label>
+                        <input class="form-control" type="password" id="password_confirm" name="password_confirm" required>
+                        <br>
+        
+                        <!-- Mensaje de error para contraseñas -->
+                        <div id="password_error" style="color: red; display: none; text-align: left; font-size: 14px;">
+                            ⚠️ Las contraseñas no coinciden.
+                        </div>
+                        <br>
+        
+                        <button class="btn btn-success w-100" type="submit">Crear Cuenta</button>
+                        <br>
+  
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+    
+    <script>
+        function validatePasswords() {
+            let password = document.getElementById("password").value;
+            let confirmPassword = document.getElementById("password_confirm").value;
+            let errorMessage = document.getElementById("password_error");
+    
+            if (password !== confirmPassword) {
+                errorMessage.style.display = "block";
+                return false;
+            } else {
+                errorMessage.style.display = "none";
+                return true;
+            }
+        }
+    </script>
+
 {% endblock %}

@@ -94,7 +94,19 @@ def get_pacient_list():
     '''
     Obtiene la lista de pacientes
     '''
-    return render_template('pacient_list.html', user=current_user)
+    # -- Obtener los usuarios que tienen rol 'paciente', ordenados por lastname
+    pacientes = User.query.filter_by(role='paciente').order_by(User.lastname).all()
+
+    return render_template('pacient_list.html', user=current_user, pacientes=pacientes)
+
+@app.route('/pacient_page', methods=['GET'])
+@login_required             # -- Restringe el acceso a usuarios autenticados
+def get_pacient_page():
+    '''
+    Retorna la pagina del paciente
+    '''
+
+    return render_template('pacient_page.html', user=current_user)
 
 @app.route('/register', methods=['POST', 'GET'])
 def new_account():
@@ -163,7 +175,11 @@ def login():
         
         # -- Redirigir al usuario a la página que intentaba acceder
         next_page = request.args.get('next')
-        return redirect(next_page or url_for('get_pacient_list'))
+
+        if user.role == 'paciente':
+            return redirect(next_page or url_for('get_pacient_page'))
+        else:
+            return redirect(next_page or url_for('get_pacient_list'))
     else:
         flash('Correo electrónico o contraseña incorrectos', 'error')
         return redirect(url_for('login'))
