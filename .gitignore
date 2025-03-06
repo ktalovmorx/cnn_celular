@@ -5,3 +5,4 @@ cnn/train_ascus/
 cnn/train_bajogrado/
 cnn/dataset/
 __pycache__/
+migrations/
