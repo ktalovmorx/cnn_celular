@@ -3,6 +3,7 @@
 
 from .commons import db, UserMixin
 
+# -- Hereda UserMixin para compatibilidad con Flask-Login
 class User(db.Model, UserMixin):
     '''
     Datos de usuarios

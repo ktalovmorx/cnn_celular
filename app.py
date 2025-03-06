@@ -38,12 +38,12 @@ migrate = Migrate(app, db)
 # -- Extensiones permitidas
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'dcm', 'tiff'}
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -58,13 +58,6 @@ def upload_file():
         file.save(app.config['UPLOAD_PATH'] + '/' + file.filename)
         return render_template('not_found.html', message='File uploaded successfully')
     
-@app.route('/', methods=['GET'])
-def main():
-    '''
-    Pagina principal
-    '''
-    return render_template('index.html')
-
 @app.route('/<path:filename>')
 def serve_static_files(filename):
     return send_from_directory(app.static_folder, filename)
@@ -99,8 +92,9 @@ def diagnosticar():
 @login_required             # -- Restringe el acceso a usuarios autenticados
 def get_pacient_list():
     '''
+    Obtiene la lista de pacientes
     '''
-    return render_template('pacient_list.html')
+    return render_template('pacient_list.html', user=current_user)
 
 @app.route('/register', methods=['POST', 'GET'])
 def new_account():
@@ -152,23 +146,26 @@ def login():
 
     if request.method == 'GET':
         return render_template('login.html'), 200
+
+    # -- Capturar los datos del formulario
+    usermail = request.form.get('usermail')
+    password = request.form.get('password')
+
+    # Buscar al usuario en la base de datos
+    user = User.query.filter_by(usermail=usermail).first()
+
+    if user and bcrypt.check_password_hash(user.password_hash, password):
+        # -- Iniciar sesión con Flask-Login
+        login_user(user)
+
+        flash('Inicio de sesión exitoso', 'success')
+        
+        # -- Redirigir al usuario a la página que intentaba acceder
+        next_page = request.args.get('next')
+        return redirect(next_page or url_for('get_pacient_list'))
     else:
-        # -- Capturar los datos del formulario
-        usermail = request.form.get('usermail')
-        password = request.form.get('password')
-
-        # Buscar al usuario en la base de datos
-        user = User.query.filter_by(usermail=usermail).first()
-
-        if user and bcrypt.check_password_hash(user.password_hash, password):
-            # -- Iniciar sesión con Flask-Login
-            login_user(user)
-
-            flash('Inicio de sesión exitoso', 'success')
-            return redirect(url_for('get_pacient_list'))
-        else:
-            flash('Correo electrónico o contraseña incorrectos', 'error')
-            return redirect(url_for('login'))
+        flash('Correo electrónico o contraseña incorrectos', 'error')
+        return redirect(url_for('login'))
     
 @app.route('/logout')
 @login_required
@@ -176,6 +173,13 @@ def logout():
     logout_user()
     flash('Sesión cerrada', 'info')
     return redirect(url_for('login'))
+
+@app.route('/', methods=['GET'])
+def main():
+    '''
+    Pagina principal
+    '''
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=PORT)
