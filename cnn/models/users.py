@@ -45,8 +45,10 @@ class Citologia(db.Model):
     diagnostico = db.Column(db.String(255), nullable=True)
     laboratorio = db.Column(db.String(255), default="-", nullable=True)
     observacion = db.Column(db.Text, nullable=True, default="-", comment="Observaciones adicionales")
-    user = db.relationship('User', backref=db.backref('citologias', lazy=True))
-    doctor = db.relationship('User', backref=db.backref('citologias', lazy=True))
+    
+    # Relaciones
+    user = db.relationship('User', foreign_keys=[user_id], backref=db.backref('citologias_paciente', lazy=True))
+    doctor = db.relationship('User', foreign_keys=[doctor_id], backref=db.backref('citologias_doctor', lazy=True))
 
     def __repr__(self):
         return f'<Citologia {self.id}, User: {self.user.username}, Fecha: {self.fecha}>'
