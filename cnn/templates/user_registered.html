@@ -2,7 +2,7 @@
 {% block title %}Autenticar{% endblock %}
 {% block content %}
 
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="position:fixed;top:0;width:100%">
         <div class="container-fluid">
             <!--a class="navbar-brand" href="#"></a><img src="{{ url_for('static', filename='images/celulas.ico') }}" alt='Celulas' width=50-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" title="...">
@@ -22,7 +22,7 @@
     </nav>
 
     <div class="container" style="max-width: 380px;">
-        <div class='container-fluid p-1 text-white text-center' style='display:flex;flex-direction: column;border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>
+        <div class='container-fluid p-1 text-white text-center' style='display:flex;flex-direction: column;border-radius:0px;font-family: "OCR-A", monospace; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>
             <div class="alert alert-success">
                 <span class="alert-link" style="font-size:22px;color:gray">👨🏻‍⚕️<br/> {{message}}</span>
             </div>

@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block title %}Pacientes{% endblock %}
 {% block content %}
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark"  style="position:fixed;top:0;width:100%">
         <div class="container-fluid">
             <!--a class="navbar-brand" href="#"></a><img src="{{ url_for('static', filename='images/celulas.ico') }}" alt='Celulas' width=50-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" title="...">
@@ -23,105 +23,108 @@
         </div>
     </nav>
 
-    <div class='container-fluid' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace;'>
-        <div class='container-fluid' style='display:flex;flex-direction:column;padding:0px'>
-            <h3>Bienvenido, 🩺 Dr(a). {{ user.username }} {{ user.lastname }}!</h3>
-        </div>
-        <br/>
-        <h1>Lista de Pacientes</h1>
+    <div class='container-fluid content_body' style='border-radius:0px;font-family: "OCR-A", monospace;'>
+        <div class="container-fluid" style="padding:10px;border-radius:0px;background-color:white">
+            <div class='container-fluid' style='padding:0px'>
+                <h3>Bienvenido, 🩺 Dr(a). {{ user.username }} {{ user.lastname }}!</h3>
+            </div>
+            <br/>
+            <h1>Lista de Pacientes</h1>
 
-        <div class="table-responsive" style="max-height:400px">
-            <table class="table table-hover table-stripped">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Fecha Nac.</th>
-                        <th>DNI</th>
-                        <th>Dirección</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for paciente in pacientes %}
+            <div class="table-responsive" style="max-height:400px">
+                <table class="table table-hover table-stripped">
+                    <thead class="table-primary">
                         <tr>
-                            <td>{{ paciente.username }}</td>
-                            <td>{{ paciente.lastname }}</td>
-                            <td>{{ paciente.usermail }}</td>
-                            <td>{{ paciente.phone_number }}</td>
-                            <td>{{ paciente.birthday }}</td>
-                            <td>{{ paciente.dni }}</td>
-                            <td>{{ paciente.address }}</td>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Fecha Nac.</th>
+                            <th>DNI</th>
+                            <th>Dirección</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <div class="container-fluid" name="nueva_paciente">
-            <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_pac">📕 Nueva paciente</button>
-            <div id="new_pac" class="collapse" style="max-width:500px;margin-top:25px">
-                <form class="form form-control" action="/register" method="post" onsubmit="return validatePasswords()">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <!-- Columna izquierda -->
-                            <div class="col-md-6" style="text-align:left">
-                                <label for="username" class="fw-bold" style="text-align: left;">Nombre</label>
-                                <input class="form-control" type="text" id="username" name="username" required>
-                                <br>
-                                
-                                <label for="lastname" class="fw-bold">Apellido</label>
-                                <input class="form-control" type="text" id="lastname" name="lastname" required>
-                                <br>
-                
-                                <label for="usermail" class="fw-bold">Email</label>
-                                <input class="form-control" type="email" id="usermail" name="usermail" required>
-                                <br>
-                
-                                <label for="role" class="fw-bold">Rol</label>
-                                <select class="form-control" name="role" id="role">
-                                    <option value="paciente">Paciente</option>
-                                    <option value="doctor">Doctor</option>
-                                </select>
-                                <br>
-
-                                <label for="phone_number" class="fw-bold">Teléfono</label>
-                                <input class="form-control" type="email" id="phone_number" name="phone_number" required>
+                    </thead>
+                    <tbody>
+                        {% for paciente in pacientes %}
+                            <tr>
+                                <td>{{ paciente.username }}</td>
+                                <td>{{ paciente.lastname }}</td>
+                                <td>{{ paciente.usermail }}</td>
+                                <td>{{ paciente.phone_number }}</td>
+                                <td>{{ paciente.birthday }}</td>
+                                <td>{{ paciente.dni }}</td>
+                                <td>{{ paciente.address }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    
+            <div class="container-fluid" name="nueva_paciente">
+                <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_pac">📕 Nueva paciente</button>
+                <div id="new_pac" class="collapse" style="max-width:500px;margin-top:25px">
+                    <form class="form form-control" action="/register" method="post" onsubmit="return validatePasswords()">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <!-- Columna izquierda -->
+                                <div class="col-md-6" style="text-align:left">
+                                    <label for="username" class="fw-bold" style="text-align: left;">Nombre</label>
+                                    <input class="form-control" type="text" id="username" name="username" required>
+                                    <br>
+                                    
+                                    <label for="lastname" class="fw-bold">Apellido</label>
+                                    <input class="form-control" type="text" id="lastname" name="lastname" required>
+                                    <br>
+                    
+                                    <label for="usermail" class="fw-bold">Email</label>
+                                    <input class="form-control" type="email" id="usermail" name="usermail" required>
+                                    <br>
+                    
+                                    <label for="role" class="fw-bold">Rol</label>
+                                    <select class="form-control" name="role" id="role">
+                                        <option value="paciente">Paciente</option>
+                                        <option value="doctor">Doctor</option>
+                                    </select>
+                                    <br>
+    
+                                    <label for="phone_number" class="fw-bold">Teléfono</label>
+                                    <input class="form-control" type="email" id="phone_number" name="phone_number" required>
+                                </div>
+                    
+                                <!-- Columna derecha -->
+                                <div class="col-md-6" style="text-align:left">
+                                    <label for="dni" class="fw-bold">DNI</label>
+                                    <input class="form-control" type="text" id="dni" name="dni" placeholder="ID" required>
+                                    <br>
+                    
+                                    <label for="address" class="fw-bold">Dirección</label>
+                                    <input class="form-control" type="text" id="address" name="address" value="-">
+                                    <br>
+                    
+                                    <label for="password" class="fw-bold">Contraseña</label>
+                                    <input class="form-control" type="password" id="password" name="password" required>
+                                    <br>
+                    
+                                    <label for="password_confirm" class="fw-bold">Confirmar</label>
+                                    <input class="form-control" type="password" id="password_confirm" name="password_confirm" placeholder="Confirmar contraseña" required>
+                                </div>
                             </div>
-                
-                            <!-- Columna derecha -->
-                            <div class="col-md-6" style="text-align:left">
-                                <label for="dni" class="fw-bold">DNI</label>
-                                <input class="form-control" type="text" id="dni" name="dni" placeholder="ID" required>
-                                <br>
-                
-                                <label for="address" class="fw-bold">Dirección</label>
-                                <input class="form-control" type="text" id="address" name="address" value="-">
-                                <br>
-                
-                                <label for="password" class="fw-bold">Contraseña</label>
-                                <input class="form-control" type="password" id="password" name="password" required>
-                                <br>
-                
-                                <label for="password_confirm" class="fw-bold">Confirmar</label>
-                                <input class="form-control" type="password" id="password_confirm" name="password_confirm" placeholder="Confirmar contraseña" required>
+                    
+                            <!-- Mensaje de error para contraseñas -->
+                            <div id="password_error" class="text-danger mt-2" style="display: none; font-size: 14px;">
+                                ⚠️ Las contraseñas no coinciden.
+                            </div>
+                    
+                            <br>
+                            <div>
+                                <button class="btn btn-success" type="submit" style="width:100%">Crear</button>
                             </div>
                         </div>
-                
-                        <!-- Mensaje de error para contraseñas -->
-                        <div id="password_error" class="text-danger mt-2" style="display: none; font-size: 14px;">
-                            ⚠️ Las contraseñas no coinciden.
-                        </div>
-                
-                        <br>
-                        <div>
-                            <button class="btn btn-success" type="submit" style="width:100%">Crear</button>
-                        </div>
-                    </div>
-                </form>                
+                    </form>                
+                </div>
             </div>
         </div>
+
     </div>
 
     <script>

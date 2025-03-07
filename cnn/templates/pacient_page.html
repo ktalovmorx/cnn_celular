@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block title %}Pacientes{% endblock %}
 {% block content %}
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="position:fixed;top:0;width:100%">
         <div class="container-fluid">
             <!--a class="navbar-brand" href="#"></a><img src="{{ url_for('static', filename='images/celulas.ico') }}" alt='Celulas' width=50-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" title="...">
@@ -20,54 +20,55 @@
         </div>
     </nav>
 
-    <div class='container-fluid' style='border-radius:8px;margin-top:20px;font-family: "OCR-A", monospace;'>
-        <div class='container-fluid' style='display:flex;flex-direction:column;padding:0px;margin-bottom:15px'>
-            <table class="table table-hover table-stripped table-light table-bordered">
-                <tbody>
-                    <tr>
-                        <td><span><strong>Paciente:</strong>{{ user.username }}</span></td>
-                        <td><span><strong>DNI:</strong>{{ user.dni }}</span></td>
-                        <td><span><strong>Dirección:</strong>{{ user.address }}</span></td>
-                    </tr>
-                    <tr>
-                        <td><span><strong>Historial:</strong>-</span></td>
-                        <td><span><strong>Telefono:</strong>{{ user.phone_number }}</span></td>
-                        <td><span><strong>Email:</strong>{{ user.usermail }}</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="container-fluid" name="nueva_citologia">
-            <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva citologia</button>
-            <div id="new_cit" class="collapse" style="margin-top:25px">
-                <form>
-                    <div class="mb-3">
-                        <label for="citologia-date" class="form-label">Fecha de la citología</label>
-                        <input type="date" class="form-control" id="citologia-date" name="citologia-date" required />
-                        <br/>
-                        <button class="btn btn-success w-100" type="submit" style="max-width:100px">Crear</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="container-fluid" style="margin-top:25px">
-            <div class="table-responsive">
-                <table class="table table-hover table-stripped">
-                    <thead class="table-primary">
-                        <tr>
-                            <th><span>Fecha</span></th>
-                            <th><span>Citologia</span></th>
-                            <th><span>Diagnóstico</span></th>
-                            <th><span>Informe PDF</span></th>
-                        </tr>
-                    </thead>
+    <div class='container-fluid content_body' style='border-radius:0px;font-family: "OCR-A", monospace;'>
+        <div class="container-fluid" style="padding:10px;border-radius:0px;background-color:white">
+            <div class='container-fluid' style='display:flex;flex-direction:column;padding:0px;margin-bottom:15px'>
+                <table class="table table-hover table-stripped table-light table-bordered">
                     <tbody>
+                        <tr>
+                            <td><span><strong>Paciente:</strong>{{ user.username }}</span></td>
+                            <td><span><strong>DNI:</strong>{{ user.dni }}</span></td>
+                            <td><span><strong>Dirección:</strong>{{ user.address }}</span></td>
+                        </tr>
+                        <tr>
+                            <td><span><strong>Historial:</strong>-</span></td>
+                            <td><span><strong>Telefono:</strong>{{ user.phone_number }}</span></td>
+                            <td><span><strong>Email:</strong>{{ user.usermail }}</span></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
+    
+            <div class="container-fluid" name="nueva_citologia">
+                <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva citologia</button>
+                <div id="new_cit" class="collapse" style="margin-top:25px">
+                    <form>
+                        <div class="mb-3">
+                            <label for="citologia-date" class="form-label">Fecha de la citología</label>
+                            <input type="date" class="form-control" id="citologia-date" name="citologia-date" required />
+                            <br/>
+                            <button class="btn btn-success w-100" type="submit" style="max-width:100px">Crear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+            <div class="container-fluid" style="margin-top:25px">
+                <div class="table-responsive">
+                    <table class="table table-hover table-stripped">
+                        <thead class="table-primary">
+                            <tr>
+                                <th><span>Fecha</span></th>
+                                <th><span>Citologia</span></th>
+                                <th><span>Diagnóstico</span></th>
+                                <th><span>Informe PDF</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
     </div>
 {% endblock %}

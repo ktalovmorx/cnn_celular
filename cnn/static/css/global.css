@@ -10,15 +10,30 @@ body{
 .main_body {
     min-height: 100vh; /* Ocupar al menos el alto de la pantalla */
     display: flex;
-    flex-direction: column; /* Asegura que los hijos se apilen correctamente */
-    justify-content: center; /* Centrar contenido si es necesario */
-    align-items: center; /* Centrar horizontalmente si es necesario */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-size: cover !important;
     background-attachment: fixed !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-color: var(--homeMenu-bg-color, #e7e9ed) !important;
     background-image: var(--homeMenu-bg-image, url('/static/images/index.png')) !important;
+}
+
+.content_body {
+    min-height: 100vh; /* Ocupar al menos el alto de la pantalla */
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center; */
+    margin-top:100px;
+    align-items: center;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--homeMenu-bg-color, #e7e9ed) !important;
+    background-image: var(--homeMenu-bg-image, url('/static/images/bg_cells.png')) !important;
 }
 
 .app_title {
