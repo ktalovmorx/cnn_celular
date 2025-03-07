@@ -152,7 +152,7 @@ def new_account():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Guardar usuario en la base de datos
-        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname, role=role)
+        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname, role=role, dni=dni, address=address)
         db.session.add(new_user)
         db.session.commit()
 
