@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError
 import logging
+from tensorflow.keras.models import load_model
 load_dotenv()
 
 # -- Configuración del logger
@@ -93,8 +94,11 @@ def diagnosticar():
     except Exception as e:
         return jsonify({'error': 'No se pudo guardar la imagen', 'details': str(e)}), 500
 
-    # Realizar la predicción
+    # -- Cargar el modelo
+    modelo = load_model("modelo.h5")
     predictor = CNNModel.get_predictor(MODEL_NAME)
+
+    # -- Realizar la predicción
     try:
         cat_id = CNNModel.categorizador_local(file_path)
         return jsonify({'diagnostico': predictor[cat_id].upper()}), 200
