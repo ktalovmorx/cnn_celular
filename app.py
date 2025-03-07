@@ -98,9 +98,10 @@ def upload_file():
         # -- Guardar en la base de datos
         new_citologia = Citologia(
             user_id=current_user.id,
+            folder=folder_name,
             fecha=fecha,
-            # -- Guardar rutas separadas por comas
-            imagenes=str(",".join(saved_images)),
+            # -- Guardar rutas separadas por | (barras)
+            imagenes=str("|".join(saved_images)),
             diagnostico=None,
             laboratorio=None
         )

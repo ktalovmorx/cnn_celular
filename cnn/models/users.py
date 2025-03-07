@@ -38,12 +38,12 @@ class Citologia(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Relación con User
+    folder = db.Column(db.String(24), nullable=True, comment="Folder")
     fecha = db.Column(db.Date, nullable=False)
     imagenes = db.Column(db.Text, nullable=True)
     diagnostico = db.Column(db.String(255), nullable=True)
     laboratorio = db.Column(db.String(255), default="-", nullable=True)
     observacion = db.Column(db.Text, nullable=True, default="-", comment="Observaciones adicionales")
-
     user = db.relationship('User', backref=db.backref('citologias', lazy=True))
 
     def __repr__(self):

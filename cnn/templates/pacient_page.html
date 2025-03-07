@@ -62,7 +62,7 @@
                                 <br />
                         
                                 <label for="citologia-code" class="form-label">Código de la citología</label>
-                                <input type="text" class="form-control" id="citologia-code" name="citologia-code" value="{{user.usermail}}" required />
+                                <input type="text" class="form-control" id="citologia-code" name="citologia-code" value="{{user.usermail}}" readonly/>
                                 <br />
 
                                 <label for="citologia-images" class="form-label">Subir imágenes</label>
@@ -91,6 +91,9 @@
                                     <span>Diagnóstico</span>
                                 </th>
                                 <th>
+                                    <span>Laboratorio</span>
+                                </th>
+                                <th>
                                     <span>Observación</span>
                                 </th>
                                 <th>
@@ -99,6 +102,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
+                            {% for citologia in citologias %}
+                            <tr>
+                                <td><a href="/pacient_page/{{paciente.id}}">{{ paciente.username }}</a></td>
+                                <td>{{ citologia.fecha }}</td>
+                                <td>{{ citologia.folder }}</td>
+                                <td>{{ citologia.diagnostico }}</td>
+                                <td>{{ citologia.laboratorio }}</td>
+                                <td>{{ citologia.observacion }}</td>
+                                <td>-</td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
