@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError
 import pickle
+from datetime import datetime
 import logging
 load_dotenv()
 
@@ -157,10 +158,17 @@ def new_account():
         dni      = data.get('dni', None)
         address  = data.get('address', '-')
         phone_number = data.get('phone_number', '-')
+        birthday = data.get('birthday', None)
 
         if None in (usermail,password,username, lastname, role):
             return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde ó contacte a un administrador'), 400
 
+        # Convertir la fecha de nacimiento a un objeto datetime.date
+        try:
+            birthday = datetime.strptime(birthday, '%Y-%m-%d').date()
+        except ValueError:
+            return render_template('register_failed.html', message='Fecha de nacimiento no válida'), 400
+        
         # -- Verificar si el usuario ya existe
         existing_user = User.query.filter_by(usermail=usermail).first()
         if existing_user:
@@ -170,7 +178,16 @@ def new_account():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Guardar usuario en la base de datos
-        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname, role=role, dni=dni, address=address, phone_number=phone_number)
+        new_user = User(usermail=usermail,
+                        password_hash=hashed_password,
+                        username=username,
+                        lastname=lastname,
+                        role=role,
+                        dni=dni,
+                        address=address,
+                        phone_number=phone_number,
+                        birthday=birthday
+                        )
         db.session.add(new_user)
         db.session.commit()
 
