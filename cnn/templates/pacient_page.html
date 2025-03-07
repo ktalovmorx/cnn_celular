@@ -34,6 +34,15 @@
 
     <div class='container-fluid content_body' style='border-radius:8px;font-family: "OCR-A", monospace;'>
         <div class="container-fluid" style="padding:10px;border-radius:0px;background-color:white">
+
+            {% if user_role == "doctor" %}
+                <div class='container-fluid' style='padding:0px'>
+                    <h3>Bienvenido, 🪪 {{ user.username }} {{ user.lastname }}!</h3>
+                </div>
+                <br/>
+                <h1> Historial del paciente</h1>
+            {% endif %}
+
             <div class='container-fluid' style='display:flex;flex-direction:column;padding:0px;margin-bottom:15px'>
                 <table class="table table-hover table-stripped table-light table-bordered">
                     <tbody>
