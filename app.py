@@ -112,7 +112,7 @@ def upload_file():
         db.session.commit()
 
         flash('Citología guardada con éxito', 'success')
-        return redirect(url_for('get_pacient_page', uid=current_user.id))
+        return redirect(url_for('get_pacient_page', uid=pacient_id))
 
     except Exception as e:
         flash(f'Error al subir la citología: {str(e)}', 'error')
