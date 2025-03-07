@@ -41,7 +41,8 @@ class Citologia(db.Model):
     fecha = db.Column(db.Date, nullable=False)
     imagenes = db.Column(db.LargeBinary, nullable=True)  # Almacenar todas las imágenes como un solo arreglo binario
     diagnostico = db.Column(db.String(255), nullable=True)
-    laboratorio = db.Column(db.String(255), nullable=True)
+    laboratorio = db.Column(db.String(255), default="-", nullable=True)
+    observacion = db.Column(db.Text, nullable=True, default="-", comment="Observaciones adicionales")
 
     user = db.relationship('User', backref=db.backref('citologias', lazy=True))
 

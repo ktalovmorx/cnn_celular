@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_restful import Resource, Api
 from flask_login import login_user
+from werkzeug.utils import secure_filename
 import os
 from cnn.cnn_model import CNNModel
 from cnn import create_app
@@ -14,6 +15,7 @@ from enum import Enum
 from sqlalchemy.exc import IntegrityError
 import pickle
 from datetime import datetime
+import re
 import logging
 load_dotenv()
 
@@ -62,17 +64,55 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 @app.route('/upload', methods=['POST'])
+@login_required
 def upload_file():
     '''
-    Permite la subida de un archivo al servidor
+    Captura y almacena los datos de la citología con múltiples imágenes
     '''
+    try:
+        fecha = request.form.get('citologia-date')
+        codigo = request.form.get('citologia-code')
+        files = request.files.getlist('citologia-images')
 
-    file = request.files['file']
-    if not file:
-        return render_template('not_found.html', message='File not found')
-    else:
-        file.save(app.config['UPLOAD_PATH'] + '/' + file.filename)
-        return render_template('not_found.html', message='File uploaded successfully')
+        if not fecha or not codigo or not files:
+            flash('Todos los campos son obligatorios', 'error')
+            return render_template('404.html', message="Todos los campos son obligatorios", user_role=current_user.role.value)
+
+        # -- Creamos el nombre de la carpeta combinando el codigo(correo por defecto) y la fecha
+        folder_name = codigo.upper() + '_' + re.sub(r'[\s]', '', fecha)
+        pacient_folder = os.path.join(app.config['UPLOAD_FOLDER'], folder_name)
+
+        # -- Crear la carpeta si no existe
+        os.makedirs(pacient_folder, exist_ok=True)
+
+        saved_images = []
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                filepath = os.path.join(pacient_folder, filename)
+                file.save(filepath)
+                # -- Guardar ruta de la imagen
+                saved_images.append(filepath)
+
+        # -- Guardar en la base de datos
+        new_citologia = Citologia(
+            user_id=current_user.id,
+            fecha=fecha,
+            # -- Guardar rutas separadas por comas
+            imagenes=",".join(saved_images),
+            diagnostico=None,
+            laboratorio=None
+        )
+
+        db.session.add(new_citologia)
+        db.session.commit()
+
+        flash('Citología guardada con éxito', 'success')
+        return redirect(url_for('get_pacient_page'))
+
+    except Exception as e:
+        flash(f'Error al subir la citología: {str(e)}', 'error')
+        return render_template('404.html', message=f'Error al subir la citología: {str(e)}', user_role=current_user.role.value)
     
 @app.route('/<path:filename>')
 def serve_static_files(filename):
