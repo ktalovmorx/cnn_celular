@@ -21,56 +21,67 @@
     <div class="container" style="max-width: 450px;">
         <div class="container-fluid p-3 text-white text-center" 
              style="border-radius:8px; margin-top:20px; font-family: 'OCR-A', monospace; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #343a40;">
-            <form class="form form-control" action="/register" method="post" onsubmit="return validatePasswords()">
-                <div class="container-fluid" style="display:flex; flex-direction:column">
-                    <label for="username" style="text-align: left; font-weight: bold;">Nombre</label>
-                    <input class="form-control" type="text" id="username" name="username" required>
-                    <br>
-                    
-                    <label for="lastname" style="text-align: left; font-weight: bold;">Apellido</label>
-                    <input class="form-control" type="text" id="lastname" name="lastname" required>
-                    <br>
-                    
-                    <label for="usermail" style="text-align: left; font-weight: bold;">Email</label>
-                    <input class="form-control" type="email" id="usermail" name="usermail" required>
-                    <br>
-
-                    <label for="role" style="text-align: left; font-weight: bold;">Rol</label>
-                    <select class="form-control" name="role" id="role">
-                        <option value="paciente">Paciente</option>
-                        <option value="doctor">Doctor</option>
-                    </select>
-                    <br>
-
-                    <label for="dni" style="text-align: left; font-weight: bold;">DNI</label>
-                    <input class="form-control" type="text" id="dni" name="dni" placeholder="ID" required>
-                    <br>
-
-                    <label for="address" style="text-align: left; font-weight: bold;">Dirección</label>
-                    <input class="form-control" type="text" id="address" name="address" value="-">
-                    <br>
-
-                    <label for="password" style="text-align: left; font-weight: bold;">Contraseña</label>
-                    <input class="form-control" type="password" id="password" name="password" required>
-                    <br>
-                    
-                    <label for="password_confirm" style="text-align: left; font-weight: bold;">Confirmar contraseña</label>
-                    <input class="form-control" type="password" id="password_confirm" name="password_confirm" required>
-                    <br>
-    
+             <form class="form form-control" action="/register" method="post" onsubmit="return validatePasswords()">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Columna izquierda -->
+                        <div class="col-md-6">
+                            <label for="username" class="fw-bold">Nombre</label>
+                            <input class="form-control" type="text" id="username" name="username" required>
+                            <br>
+                            
+                            <label for="lastname" class="fw-bold">Apellido</label>
+                            <input class="form-control" type="text" id="lastname" name="lastname" required>
+                            <br>
+            
+                            <label for="usermail" class="fw-bold">Email</label>
+                            <input class="form-control" type="email" id="usermail" name="usermail" required>
+                            <br>
+            
+                            <label for="role" class="fw-bold">Rol</label>
+                            <select class="form-control" name="role" id="role">
+                                <option value="paciente">Paciente</option>
+                                <option value="doctor">Doctor</option>
+                            </select>
+                        </div>
+            
+                        <!-- Columna derecha -->
+                        <div class="col-md-6">
+                            <label for="dni" class="fw-bold">DNI</label>
+                            <input class="form-control" type="text" id="dni" name="dni" placeholder="ID" required>
+                            <br>
+            
+                            <label for="address" class="fw-bold">Dirección</label>
+                            <input class="form-control" type="text" id="address" name="address" value="-">
+                            <br>
+            
+                            <label for="password" class="fw-bold">Contraseña</label>
+                            <input class="form-control" type="password" id="password" name="password" required>
+                            <br>
+            
+                            <label for="password_confirm" class="fw-bold">Confirmar</label>
+                            <input class="form-control" type="password" id="password_confirm" name="password_confirm" placeholder="Confirmar contraseña" required>
+                        </div>
+                    </div>
+            
                     <!-- Mensaje de error para contraseñas -->
-                    <div id="password_error" style="color: red; display: none; text-align: left; font-size: 14px;">
+                    <div id="password_error" class="text-danger mt-2" style="display: none; font-size: 14px;">
                         ⚠️ Las contraseñas no coinciden.
                     </div>
+            
                     <br>
-    
                     <button class="btn btn-success w-100" type="submit">Crear Cuenta</button>
-                    <br>
-    
+                    <br><br>
+            
                     <!-- Enlace para usuarios que ya tienen cuenta -->
-                    <a href="/login" style="color: #007bff; text-decoration: none; text-align: left; font-size: 14px;">Ya tengo una cuenta</a>
+                    <div class="text-center">
+                        <a href="/login" class="text-primary" style="text-decoration: none; font-size: 14px;">
+                            Ya tengo una cuenta
+                        </a>
+                    </div>
                 </div>
             </form>
+            
         </div>
     </div>
     
