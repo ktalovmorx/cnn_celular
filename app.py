@@ -117,15 +117,25 @@ def get_pacient_list():
 
     return render_template('pacient_list.html', user=current_user, pacientes=pacientes)
 
+@app.route('/pacient_page/<int:uid>', methods=['GET'])
 @app.route('/pacient_page', methods=['GET'])
-@login_required             # -- Restringe el acceso a usuarios autenticados
-def get_pacient_page():
+# -- Restringe el acceso a usuarios autenticados
+@login_required
+def get_pacient_page(uid=None):
     '''
     Retorna la pagina del paciente
     '''
 
-    citologias = Citologia.query.filter_by(usuario_id=current_user.id).all()
-    return render_template('pacient_page.html', user=current_user, user_role=current_user.role.value, citologias=citologias)
+    # Si se proporciona un `uid`, buscar el usuario en la base de datos
+    pacient_user = User.query.get(uid) if uid else current_user
+
+    # Si no existe el usuario con ese `uid`, redirigir con un mensaje de error
+    if not pacient_user:
+        flash('Usuario no encontrado', 'error')
+        return redirect(url_for('some_error_page'))
+    
+    citologias = Citologia.query.filter_by(user_id=current_user.id).all()
+    return render_template('pacient_page.html', doctor=current_user, user=pacient_user, user_role=current_user.role.value, citologias=citologias)
 
 @app.route('/register', methods=['POST', 'GET'])
 @login_required
