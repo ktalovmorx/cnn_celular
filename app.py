@@ -79,7 +79,7 @@ def upload_file():
             return render_template('404.html', message="Todos los campos son obligatorios", user_role=current_user.role.value)
 
         # -- Creamos el nombre de la carpeta combinando el codigo(correo por defecto) y la fecha
-        folder_name = codigo.replace('@', '_').upper() + '_' + re.sub(r'[\s]', '', fecha)
+        folder_name = codigo.replace('@', '_').replace('.', '_').upper() + '_' + str(fecha).replace('-', '_')
         pacient_folder = os.path.join(app.config['UPLOAD_PATH'], folder_name)
 
         # -- Crear la carpeta si no existe
@@ -94,12 +94,13 @@ def upload_file():
                 # -- Guardar ruta de la imagen
                 saved_images.append(filepath)
 
+        print(fecha, codigo, files, folder_name, pacient_folder)
         # -- Guardar en la base de datos
         new_citologia = Citologia(
             user_id=current_user.id,
             fecha=fecha,
             # -- Guardar rutas separadas por comas
-            imagenes=",".join(saved_images),
+            imagenes=str(",".join(saved_images)),
             diagnostico=None,
             laboratorio=None
         )
@@ -112,7 +113,7 @@ def upload_file():
 
     except Exception as e:
         flash(f'Error al subir la citología: {str(e)}', 'error')
-        return render_template('notification.html', message=f'Error al subir la citología: {str(e)}', user_role=current_user.role.value)
+        return render_template('notification.html', message=f'Error al subir la citología: {str(e)}')
     
 @app.route('/<path:filename>')
 def serve_static_files(filename):
