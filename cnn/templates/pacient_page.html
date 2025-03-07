@@ -73,6 +73,9 @@
                                 <input type="file" class="form-control" id="citologia-images" name="citologia-images" accept="image/*" multiple required />
                                 <br />
                         
+                                <!-- CODIGO OCULTO DEL PACIENTE -->
+                                <input type="hidden" class="form-control" id="pacient_id" name="pacient_id" value="{{user.id}}" readonly/>
+
                                 <button class="btn btn-success w-100" type="submit" style="max-width: 100px">Crear</button>
                             </div>
                         </form>

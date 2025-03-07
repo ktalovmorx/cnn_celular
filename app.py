@@ -74,6 +74,7 @@ def upload_file():
         codigo = request.form.get('citologia-code')
         files = request.files.getlist('citologia-images')
         laboratorio = request.form.get('citologia-lab')
+        pacient_id = request.form.get(pacient_id)
 
         if not fecha or not codigo or not files:
             flash('Todos los campos son obligatorios', 'error')
@@ -95,10 +96,10 @@ def upload_file():
                 # -- Guardar ruta de la imagen
                 saved_images.append(filepath)
 
-        print(fecha, codigo, files, folder_name, pacient_folder)
         # -- Guardar en la base de datos
         new_citologia = Citologia(
-            user_id=current_user.id,
+            user_id=int(pacient_id),
+            doctor_id=current_user.id,
             folder=folder_name,
             fecha=fecha,
             # -- Guardar rutas separadas por | (barras)
