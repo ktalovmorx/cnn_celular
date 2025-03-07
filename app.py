@@ -130,7 +130,7 @@ def new_account():
         return render_template('register.html'), 200
 
     try:
-        # Intentar obtener los datos desde JSON o Form
+        # -- Intentar obtener los datos desde JSON o Form
         data = request.get_json() if request.is_json else request.form
         usermail = data.get('usermail', None)
         password = data.get('password', None)
@@ -138,21 +138,22 @@ def new_account():
         lastname = data.get('lastname', None)
         role     = data.get('role', None)
         dni      = data.get('dni', None)
-        address  = data.get('address', None)
+        address  = data.get('address', '-')
+        phone_number = data.get('phone_number', '-')
 
         if None in (usermail,password,username, lastname, role):
             return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde ó contacte a un administrador'), 400
 
-        # Verificar si el usuario ya existe
+        # -- Verificar si el usuario ya existe
         existing_user = User.query.filter_by(usermail=usermail).first()
         if existing_user:
             return render_template('register_failed.html', message='Registro fallido, intente de nuevo mas tarde ó contacte a un administrador'), 400
 
-        # Hashear la contraseña
+        # -- Hashear la contraseña
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
         # Guardar usuario en la base de datos
-        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname, role=role, dni=dni, address=address)
+        new_user = User(usermail=usermail, password_hash=hashed_password, username=username, lastname=lastname, role=role, dni=dni, address=address, phone_number=phone_number)
         db.session.add(new_user)
         db.session.commit()
 
