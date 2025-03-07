@@ -106,16 +106,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
                             {% for citologia in citologias %}
-                            <tr>
-                                <td>{{ citologia.fecha }}</td>
-                                <td>{{ citologia.folder }}</td>
-                                <td>{{ citologia.diagnostico }}</td>
-                                <td>{{ citologia.laboratorio }}</td>
-                                <td>{{ citologia.observacion }}</td>
-                                <td>-</td>
-                            </tr>
+                                <tr>
+                                    <td>{{ citologia.fecha }}</td>
+                                    <td>{{ citologia.folder }}</td>
+                                    <td>{{ citologia.diagnostico }}</td>
+                                    <td>{{ citologia.laboratorio }}</td>
+                                    <td>{{ citologia.observacion }}</td>
+                                    <td>-</td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>

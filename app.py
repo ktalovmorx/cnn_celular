@@ -176,7 +176,7 @@ def get_pacient_page(uid=None):
     # Si no existe el usuario con ese `uid`, redirigir con un mensaje de error
     if not pacient_user:
         flash('Usuario no encontrado', 'error')
-        return redirect(url_for('some_error_page'))
+        return render_template('notification.html', message='Usuario no encontrado')
     
     citologias = Citologia.query.filter_by(user_id=current_user.id).all()
     return render_template('pacient_page.html', doctor=current_user, user=pacient_user, user_role=current_user.role.value, citologias=citologias)
