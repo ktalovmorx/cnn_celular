@@ -112,7 +112,7 @@ def upload_file():
 
     except Exception as e:
         flash(f'Error al subir la citología: {str(e)}', 'error')
-        return render_template('404.html', message=f'Error al subir la citología: {str(e)}', user_role=current_user.role.value)
+        return render_template('notification.html', message=f'Error al subir la citología: {str(e)}', user_role=current_user.role.value)
     
 @app.route('/<path:filename>')
 def serve_static_files(filename):
