@@ -74,7 +74,7 @@ def upload_file():
         codigo = request.form.get('citologia-code')
         files = request.files.getlist('citologia-images')
         laboratorio = request.form.get('citologia-lab')
-        pacient_id = request.form.get(pacient_id)
+        pacient_id = request.form.get('pacient_id')
 
         if not fecha or not codigo or not files:
             flash('Todos los campos son obligatorios', 'error')
