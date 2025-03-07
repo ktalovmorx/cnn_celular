@@ -6,3 +6,4 @@ cnn/train_bajogrado/
 cnn/dataset/
 __pycache__/
 migrations/
+uploads/
