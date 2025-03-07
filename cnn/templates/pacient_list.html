@@ -47,7 +47,7 @@
                     <tbody>
                         {% for paciente in pacientes %}
                             <tr>
-                                <td>{{ paciente.username }}</td>
+                                <td><a href="/pacient_page">{{ paciente.username }}</a></td>
                                 <td>{{ paciente.lastname }}</td>
                                 <td>{{ paciente.usermail }}</td>
                                 <td>{{ paciente.phone_number }}</td>
