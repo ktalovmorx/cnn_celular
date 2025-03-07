@@ -179,10 +179,7 @@ def get_pacient_page(uid=None):
         flash('Usuario no encontrado', 'error')
         return render_template('notification.html', message='Usuario no encontrado')
     
-    if current_user.role.value == RoleEnum.doctor.value:
-        citologias = Citologia.query.all()
-    else:
-        citologias = Citologia.query.filter_by(user_id=current_user.id).all()
+    citologias = Citologia.query.filter_by(user_id=pacient_user.id).all()
     return render_template('pacient_page.html', doctor=current_user, user=pacient_user, user_role=current_user.role.value, citologias=citologias)
 
 @app.route('/register', methods=['POST', 'GET'])
