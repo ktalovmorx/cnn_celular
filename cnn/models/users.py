@@ -23,7 +23,7 @@ class User(db.Model, UserMixin):
     role = db.Column(db.Enum(RoleEnum), nullable=False, default=RoleEnum.paciente, comment="Rol del usuario (paciente o doctor)")
     birthday = db.Column(db.Date, nullable=True, comment="Fecha de nacimiento")
     dni = db.Column(db.String(20), nullable=True, default="-", comment="DNI")
-    address = db.Column(db.String(20), nullable=True, default="-", comment="Direccion")
+    address = db.Column(db.String(256), nullable=True, default="-", comment="Direccion")
 
     def __repr__(self):
         return f'<User {self.usermail}, Role: {self.role}>'
