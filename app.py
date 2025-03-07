@@ -79,7 +79,7 @@ def upload_file():
             return render_template('404.html', message="Todos los campos son obligatorios", user_role=current_user.role.value)
 
         # -- Creamos el nombre de la carpeta combinando el codigo(correo por defecto) y la fecha
-        folder_name = codigo.upper() + '_' + re.sub(r'[\s]', '', fecha)
+        folder_name = codigo.replace('@', '_').upper() + '_' + re.sub(r'[\s]', '', fecha)
         pacient_folder = os.path.join(app.config['UPLOAD_FOLDER'], folder_name)
 
         # -- Crear la carpeta si no existe
@@ -108,7 +108,7 @@ def upload_file():
         db.session.commit()
 
         flash('Citología guardada con éxito', 'success')
-        return redirect(url_for('get_pacient_page'))
+        return redirect(url_for('get_pacient_page', uid=current_user.id))
 
     except Exception as e:
         flash(f'Error al subir la citología: {str(e)}', 'error')
