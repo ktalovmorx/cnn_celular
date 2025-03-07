@@ -40,19 +40,21 @@
                 </table>
             </div>
     
-            <div class="container-fluid" name="nueva_citologia">
-                <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva citologia</button>
-                <div id="new_cit" class="collapse" style="margin-top:25px">
-                    <form>
-                        <div class="mb-3">
-                            <label for="citologia-date" class="form-label">Fecha de la citología</label>
-                            <input type="date" class="form-control" id="citologia-date" name="citologia-date" required />
-                            <br/>
-                            <button class="btn btn-success w-100" type="submit" style="max-width:100px">Crear</button>
-                        </div>
-                    </form>
+            {% if user_role == "doctor" %}
+                <div class="container-fluid" name="nueva_citologia">
+                    <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva citologia</button>
+                    <div id="new_cit" class="collapse" style="margin-top:25px">
+                        <form>
+                            <div class="mb-3">
+                                <label for="citologia-date" class="form-label">Fecha de la citología</label>
+                                <input type="date" class="form-control" id="citologia-date" name="citologia-date" required />
+                                <br/>
+                                <button class="btn btn-success w-100" type="submit" style="max-width:100px">Crear</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
     
             <div class="container-fluid" style="margin-top:25px">
                 <div class="table-responsive">

@@ -123,7 +123,7 @@ def get_pacient_page():
     Retorna la pagina del paciente
     '''
 
-    return render_template('pacient_page.html', user=current_user)
+    return render_template('pacient_page.html', user=current_user, user_role=current_user.role.value)
 
 @app.route('/register', methods=['POST', 'GET'])
 def new_account():
