@@ -33,7 +33,7 @@ body{
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-color: var(--homeMenu-bg-color, #e7e9ed) !important;
-    background-image: var(--homeMenu-bg-image, url('/static/images/bg_cells.png')) !important;
+    background-image: var(--homeMenu-bg-image, url('/static/images/bg_cells_2.png')) !important;
 }
 
 .app_title {

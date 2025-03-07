@@ -28,8 +28,8 @@
     >>> ALTER USER cnn CREATEDB;
     >>> ALTER USER cnn WITH SUPERUSER;
     >>> CREATE DATABASE cnn_model WITH OWNER = cnn;
-    >>> GRANT ALL PRIVILEGES ON DATABASE recommender_system TO cnn;
-    >>> COMMENT ON DATABASE recommender_system IS 'Base de datos de categorizacion de celulas';
+    >>> GRANT ALL PRIVILEGES ON DATABASE cnn_model TO cnn;
+    >>> COMMENT ON DATABASE cnn_model IS 'Base de datos de categorizacion de celulas';
 ```
 
 <h3>Inicializar la base de datos</h3>
