@@ -80,7 +80,7 @@ def upload_file():
 
         # -- Creamos el nombre de la carpeta combinando el codigo(correo por defecto) y la fecha
         folder_name = codigo.replace('@', '_').upper() + '_' + re.sub(r'[\s]', '', fecha)
-        pacient_folder = os.path.join(app.config['UPLOAD_FOLDER'], folder_name)
+        pacient_folder = os.path.join(app.config['UPLOAD_PATH'], folder_name)
 
         # -- Crear la carpeta si no existe
         os.makedirs(pacient_folder, exist_ok=True)
