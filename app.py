@@ -73,6 +73,7 @@ def upload_file():
         fecha = request.form.get('citologia-date')
         codigo = request.form.get('citologia-code')
         files = request.files.getlist('citologia-images')
+        laboratorio = request.form.get('citologia-lab')
 
         if not fecha or not codigo or not files:
             flash('Todos los campos son obligatorios', 'error')
@@ -102,8 +103,8 @@ def upload_file():
             fecha=fecha,
             # -- Guardar rutas separadas por | (barras)
             imagenes=str("|".join(saved_images)),
-            diagnostico=None,
-            laboratorio=None
+            diagnostico='N/A',
+            laboratorio=laboratorio
         )
 
         db.session.add(new_citologia)
