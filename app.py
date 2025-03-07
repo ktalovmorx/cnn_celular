@@ -8,10 +8,11 @@ from flask_login import login_user
 import os
 from cnn.cnn_model import CNNModel
 from cnn import create_app
-from cnn.models import User
+from cnn.models import User, Citologia
 from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError
+import pickle
 import logging
 load_dotenv()
 
@@ -123,9 +124,11 @@ def get_pacient_page():
     Retorna la pagina del paciente
     '''
 
-    return render_template('pacient_page.html', user=current_user, user_role=current_user.role.value)
+    citologias = Citologia.query.filter_by(usuario_id=current_user.id).all()
+    return render_template('pacient_page.html', user=current_user, user_role=current_user.role.value, citologias=citologias)
 
 @app.route('/register', methods=['POST', 'GET'])
+@login_required
 def new_account():
     '''
     Registro de usuario
@@ -177,6 +180,13 @@ def login():
     - POST  : Procesa la autenticación.
     '''
 
+    # -- Verificar si el usuario ya está autenticado
+    if current_user.is_authenticated:
+        if current_user.role.value == RoleEnum.paciente.value:
+            return redirect(url_for('get_pacient_page'))
+        elif current_user.role.value == RoleEnum.doctor.value:
+            return redirect(url_for('get_pacient_list'))
+        
     if request.method == 'GET':
         return render_template('login.html'), 200
 

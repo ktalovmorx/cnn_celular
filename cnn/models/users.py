@@ -1,10 +1,12 @@
 from enum import Enum
 from .commons import db, UserMixin
+from sqlalchemy.orm import relationship
 
 # Definir el Enum para los roles
 class RoleEnum(Enum):
     paciente = 'paciente'
     doctor = 'doctor'
+    admin = 'admin'
 
 # -- Hereda UserMixin para compatibilidad con Flask-Login
 class User(db.Model, UserMixin):
@@ -27,3 +29,21 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'<User {self.usermail}, Role: {self.role}>'
+
+class Citologia(db.Model):
+    '''
+    Imagenes de las células
+    '''
+    __tablename__ = 'citologias'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Relación con User
+    fecha = db.Column(db.Date, nullable=False)
+    imagenes = db.Column(db.LargeBinary, nullable=True)  # Almacenar todas las imágenes como un solo arreglo binario
+    diagnostico = db.Column(db.String(255), nullable=True)
+    laboratorio = db.Column(db.String(255), nullable=True)
+
+    user = db.relationship('User', backref=db.backref('citologias', lazy=True))
+
+    def __repr__(self):
+        return f'<Citologia {self.id}, User: {self.user.username}, Fecha: {self.fecha}>'
