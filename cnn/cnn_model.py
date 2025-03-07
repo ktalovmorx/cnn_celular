@@ -21,6 +21,7 @@ load_dotenv()
 # -- Leer el archivo .env
 try:
     MODEL_NAME = os.getenv('model_name')
+    PREDICTOR_NAME = os.getenv('predictor_name')
     BATCH_SIZE = os.getenv('image_size')
     EPOCHS = os.getenv('batch_size')
     IMAGE_SIZE = os.getenv('epochs')
@@ -223,10 +224,10 @@ class CNNModel(object):
         )
 
         print('Salvando modelo...')
-        modelo.save("modelo.h5")
+        modelo.save(MODEL_NAME)
 
 
 if __name__ == '__main__':
     cnn = CNNModel()
     cnn.create_model()
-    cnn.save_predictor(predictor_path=MODEL_NAME)
+    cnn.save_predictor(predictor_path=PREDICTOR_NAME)

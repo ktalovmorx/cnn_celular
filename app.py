@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError
 import logging
-from tensorflow.keras.models import load_model
 load_dotenv()
 
 # -- Configuración del logger
@@ -27,6 +26,7 @@ _logger = logging.getLogger(__name__)
 try:
     PORT = int(os.getenv('flask_port'))
     MODEL_NAME = os.getenv('model_name')
+    PREDICTOR_NAME = os.getenv('predictor_name')
 except:
     raise ValueError("PORT variable is not defined")
 
@@ -95,8 +95,8 @@ def diagnosticar():
         return jsonify({'error': 'No se pudo guardar la imagen', 'details': str(e)}), 500
 
     # -- Cargar el modelo
-    modelo = load_model("modelo.h5")
-    predictor = CNNModel.get_predictor(MODEL_NAME)
+    CNNModel.load_h5_model(model_path=f'./cnn/{MODEL_NAME}')
+    predictor = CNNModel.get_predictor(predictor_path=f'./cnn/{PREDICTOR_NAME}')
 
     # -- Realizar la predicción
     try:
