@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
     role = db.Column(db.Enum(RoleEnum), nullable=False, default=RoleEnum.paciente, comment="Rol del usuario (paciente o doctor)")
     birthday = db.Column(db.Date, nullable=True, comment="Fecha de nacimiento")
     dni = db.Column(db.String(20), nullable=True, default="-", comment="DNI")
-    address = db.Column(db.String(256), nullable=True, default="-", comment="Direccion")
+    address = db.Column(db.String(255), nullable=True, default="-", comment="Direccion")
 
     def __repr__(self):
         return f'<User {self.usermail}, Role: {self.role}>'
@@ -38,7 +38,7 @@ class Citologia(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Relación con User
-    folder = db.Column(db.String(24), nullable=True, comment="Folder")
+    folder = db.Column(db.String(255), nullable=True, comment="Folder")
     fecha = db.Column(db.Date, nullable=False)
     imagenes = db.Column(db.Text, nullable=True)
     diagnostico = db.Column(db.String(255), nullable=True)
