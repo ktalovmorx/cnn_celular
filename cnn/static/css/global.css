@@ -36,9 +36,9 @@ body{
     background-image: var(--homeMenu-bg-image, url('/static/images/bg_cells_2.png')) !important;
 }
 
-.app_title {
+.app_title{
     color: white;
-    position: fixed;
+    /*position: fixed;*/
     top: 0;
     margin-top: 20px;
     font-size: 38px;
@@ -48,6 +48,7 @@ body{
     transition: transform 1s ease;
 }
 .app_title:hover{
+    cursor:pointer;
     text-decoration: none;
     color: white;
     transform: scale(0.8);
