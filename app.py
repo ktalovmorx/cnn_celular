@@ -163,9 +163,13 @@ def static_file(filename):
     return send_from_directory(app.static_folder, filename)
 
 # Ruta para el diagnóstico
-@app.route('/pacient_diagnostic', methods=['POST'])
+@app.route('/pacient_diagnostic', methods=['POST', 'GET'])
 @login_required             # -- Restringe el acceso a usuarios autenticados
 def diagnosticar():
+
+    if request.method == 'GET':
+        return "<h1>En construcción...</h1>", 200
+    
     file = request.files.get('image')
     if not file:
         return jsonify({'error': 'No se envió ninguna imagen'}), 400
