@@ -21,7 +21,7 @@ def create_app():
     app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 100
 
     # -- Carpeta para subida de archivos
-    app.config['UPLOAD_PATH'] = 'uploads'
+    app.config['UPLOAD_PATH'] = 'cnn/static/uploads'
     app.config['TEMPLATES_AUTO_RELOAD'] = True
 
     if not os.path.exists(app.config['UPLOAD_PATH']):

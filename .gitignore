@@ -7,3 +7,4 @@ cnn/dataset/
 __pycache__/
 migrations/
 uploads/
+cnn/static/uploads/
