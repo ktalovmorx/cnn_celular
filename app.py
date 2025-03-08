@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, send_from_directory, json, url_for, redirect, flash, render_template
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import flask_bcrypt
 from flask_migrate import Migrate
 from flask_cors import CORS
-from flask_restful import Resource, Api
+from flask_restful import Api
 from flask_login import login_user
 from werkzeug.utils import secure_filename
 import os
@@ -13,9 +13,7 @@ from cnn.models import User, Citologia
 from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError
-import pickle
 from datetime import datetime
-import re
 import logging
 load_dotenv()
 
