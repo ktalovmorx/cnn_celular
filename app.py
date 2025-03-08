@@ -15,6 +15,7 @@ from enum import Enum
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 import logging
+from PIL import Image
 load_dotenv()
 
 # -- Configuración del logger
@@ -109,9 +110,9 @@ def upload_file():
             return render_template('404.html', message="Todos los campos son obligatorios", user_role=current_user.role.value)
 
         # -- Creamos el nombre de la carpeta combinando el codigo(correo por defecto) y la fecha
-        folder_name = codigo.replace('@', '_').replace('.', '_').upper() + '_' + str(fecha).replace('-', '_')
-        pacient_folder = os.path.join(app.config['UPLOAD_PATH'], folder_name)
-
+        code_name = codigo.replace('@', '_').replace('.', '_').upper() + '_' + str(fecha).replace('-', '_')
+        pacient_folder = app.config['UPLOAD_PATH'] + '/' + code_name
+        
         # -- Crear la carpeta si no existe
         os.makedirs(pacient_folder, exist_ok=True)
 
@@ -120,15 +121,26 @@ def upload_file():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 filepath = os.path.join(pacient_folder, filename)
-                file.save(filepath)
-                # -- Guardar ruta de la imagen
-                saved_images.append(filepath)
+                real_path = f'uploads/{code_name}/{filename}'
+
+                # -- Verificar si la imagen es TIFF
+                if filename.lower().endswith('.tiff'):
+                    # -- Convertir de TIFF a PNG
+                    with Image.open(file) as img:
+                        png_filename = filename.replace('.tiff', '.png')
+                        png_filepath = os.path.join(pacient_folder, png_filename)
+                        real_path = f'uploads/{code_name}/{png_filename}'
+                        img.save(png_filepath, 'PNG')  # Guardar como PNG
+                        saved_images.append(real_path)
+                else:
+                    file.save(filepath)
+                    saved_images.append(real_path)
 
         # -- Guardar en la base de datos
         new_citologia = Citologia(
             user_id=int(pacient_id),
             doctor_id=current_user.id,
-            folder=folder_name,
+            folder=pacient_folder,
             fecha=fecha,
             # -- Guardar rutas separadas por | (barras)
             imagenes=str("|".join(saved_images)),
@@ -146,8 +158,8 @@ def upload_file():
         flash(f'Error al subir la citología: {str(e)}', 'error')
         return render_template('notification.html', message=f'Error al subir la citología: {str(e)}')
     
-@app.route('/<path:filename>')
-def serve_static_files(filename):
+@app.route('/static/<path:filename>')
+def static_file(filename):
     return send_from_directory(app.static_folder, filename)
 
 # Ruta para el diagnóstico
