@@ -61,6 +61,31 @@ def allowed_file(filename):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+@app.route('/show_image/<int:cid>', methods=['GET'])
+@login_required
+def show_citology_images(cid: int):
+    '''
+    Muestra las imágenes de la citología
+    '''
+    try:
+        # Recuperar la citología por el ID
+        citologia = Citologia.query.get(cid)
+        
+        # Si no se encuentra la citología, retornar error
+        if not citologia:
+            flash('Citología no encontrada', 'error')
+            return redirect(url_for('get_pacient_page'))
+
+        # Dividir las rutas de las imágenes por '|'
+        image_paths = citologia.imagenes.split('|')
+
+        # Pasar las rutas de las imágenes a la plantilla
+        return render_template('image_carousel.html', images=image_paths)
+
+    except Exception as e:
+        flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
+        return redirect(url_for('get_pacient_page'))
+
 @app.route('/upload', methods=['POST'])
 @login_required
 def upload_file():
