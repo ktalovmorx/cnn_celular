@@ -32,8 +32,8 @@
         </div>
     </nav>
 
-    <div class='container-fluid content_body' style='border-radius:8px;font-family: "OCR-A", monospace;'>
-        <div class="container-fluid cristal" style="border-radius:8px;">
+    <div class='container-fluid content_body' style='border-radius:8px;font-family: "OCR-A", monospace'>
+        <div class="container-fluid cristal" style="border-radius:8px;margin-top:65px">
 
             {% if user_role == "paciente" %}
                 <div class='container-fluid' style='padding:0px'>
@@ -128,7 +128,7 @@
                             {% for citologia in citologias %}
                                 <tr>
                                     <td>{{ citologia.fecha }}</td>
-                                    <td>{{ citologia.folder }}</td>
+                                    <td><span class="badge bg-info" style="cursor:pointer">{{ citologia.folder }}</span></td>
                                     <td>{{ citologia.diagnostico }}</td>
                                     <td>{{ citologia.laboratorio }}</td>
                                     <td>{{ citologia.observacion }}</td>
