@@ -33,7 +33,7 @@
     </nav>
 
     <div class='container-fluid content_body' style='border-radius:8px;font-family: "OCR-A", monospace;'>
-        <div class="container-fluid cristal" style="padding:10px;border-radius:0px;background-color:white">
+        <div class="container-fluid cristal" style="border-radius:8px;">
 
             {% if user_role == "paciente" %}
                 <div class='container-fluid' style='padding:0px'>
@@ -43,13 +43,20 @@
                 <h1> Historial del paciente</h1>
             {% endif %}
 
-            <div class='container-fluid' style='display:flex;flex-direction:column;padding:0px;margin-bottom:15px'>
+            <div class='table-responsive' style='display:flex;flex-direction:column;padding:10px'>
+                <br>
                 <table class="table table-hover table-stripped table-light table-bordered">
                     <tbody>
                         <tr>
-                            <td><span><strong>Paciente:</strong>{{ user.username }}</span></td>
-                            <td><span><strong>DNI:</strong>{{ user.dni }}</span></td>
-                            <td><span><strong>Dirección:</strong>{{ user.address }}</span></td>
+                            <td>
+                                <span><strong>Paciente:</strong>{{ user.username }}</span>
+                            </td>
+                            <td>
+                                <span><strong>DNI:</strong>{{ user.dni }}</span>
+                            </td>
+                            <td>
+                                <span><strong>Dirección:</strong>{{ user.address }}</span>
+                            </td>
                         </tr>
                         <tr>
                             <td><span><strong>Historial:</strong>-</span></td>
@@ -62,23 +69,23 @@
     
             {% if user_role == "doctor" %}
                 <div class="container-fluid" name="nueva_citologia">
-                    <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva citologia</button>
+                    <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva Citología</button>
                     <div id="new_cit" class="collapse" style="margin-top:25px">
                         <form action="/upload" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
-                                <label for="citologia-date" class="form-label">Fecha de la citología</label>
+                                <label for="citologia-date" class="form-label text-white">Fecha de la citología</label>
                                 <input type="date" class="form-control" id="citologia-date" name="citologia-date" required />
                                 <br />
                         
-                                <label for="citologia-code" class="form-label">Código de la citología</label>
+                                <label for="citologia-code" class="form-label text-white">Código de la citología</label>
                                 <input type="text" class="form-control" id="citologia-code" name="citologia-code" value="{{user.usermail}}" readonly/>
                                 <br />
 
-                                <label for="citologia-lab" class="form-label">Laboratorio</label>
+                                <label for="citologia-lab" class="form-label text-white">Laboratorio</label>
                                 <input type="text" class="form-control" id="citologia-lab" name="citologia-lab"/>
                                 <br />
 
-                                <label for="citologia-images" class="form-label">Subir imágenes</label>
+                                <label for="citologia-images" class="form-label text-white">Subir imágenes</label>
                                 <input type="file" class="form-control" id="citologia-images" name="citologia-images" accept="image/*" multiple required />
                                 <br />
                         
@@ -94,7 +101,7 @@
     
             <div class="container-fluid" style="margin-top:25px">
                 <div class="table-responsive">
-                    <table class="table table-hover table-stripped">
+                    <table class="table table-hover table-stripped table-light table-bordered">
                         <thead class="table-primary">
                             <tr>
                                 <th>
