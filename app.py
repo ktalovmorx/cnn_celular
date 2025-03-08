@@ -87,7 +87,7 @@ def show_citology_images(cid: int):
         # -- Reemplazar las barras invertidas por barras diagonales
         paths = [path.replace('\\', '/') for path in paths]
 
-        return render_template('image_carousel.html', images=paths)
+        return render_template('image_carousel.html', images=paths, user_role=current_user.role.value)
     except Exception as e:
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
         return redirect(url_for('get_pacient_page'))
