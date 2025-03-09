@@ -128,7 +128,7 @@
                             {% for citologia in citologias %}
                                 <tr>
                                     <td>{{ citologia.fecha }}</td>
-                                    <td><a class="badge bg-info" style="cursor:pointer" href="/show_image/{{citologia.id}}">{{ citologia.folder }}</a></td>
+                                    <td><a class="badge bg-info" style="cursor:pointer" href="/show_image/{{citologia.id}}" title="Haga click para ver las imágenes de esta citología">{{ citologia.folder }}</a></td>
                                     <td>{{ citologia.diagnostico }}</td>
                                     <td>{{ citologia.laboratorio }}</td>
                                     <td>{{ citologia.observacion }}</td>
