@@ -53,9 +53,9 @@
                     <tbody>
                         {% for paciente in pacientes %}
                             <tr>
-                                <td><a class="badge bg-info" style="color:white;text-decoration:none;cursor:pointer" href="/pacient_page/{{paciente.id}}">{{ paciente.username }}</a></td>
+                                <td>{{ paciente.username }}</td>
                                 <td>{{ paciente.lastname }}</td>
-                                <td>{{ paciente.usermail }}</td>
+                                <td><a class="badge bg-info" style="color:white;text-decoration:none;cursor:pointer" href="/pacient_page/{{paciente.id}}">{{ paciente.usermail }}</a></td>
                                 <td>{{ paciente.phone_number }}</td>
                                 <td>{{ paciente.birthday }}</td>
                                 <td>{{ paciente.dni }}</td>
