@@ -62,16 +62,25 @@ def allowed_file(filename):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-@app.route('/show_image/<int:cid>', methods=['GET'])
+@app.route('/show_image/<int:cid>/<int:uid>', methods=['GET'])
 @login_required
-def show_citology_images(cid: int):
+def show_citology_images(cid: int, uid:int):
     '''
     Muestra las imágenes de la citología
+    cid (int) -> Id de la citologia
+    uid (int) -> Id del usuario 
     '''
     try:
-        # Recuperar todas las citologías del usuario por ID
+        # -- Obtner todas las citologías del usuario por ID
         citologia = Citologia.query.filter_by(id=cid).first()
 
+        # -- Obtener el paciente asociado
+        pacient_user = User.query.get(uid) if uid else None
+
+        if pacient_user == None:
+            flash('No se ha encontrado el paciente indicado', 'error')
+            return redirect(url_for('get_pacient_list'))
+        
         # Si no se encuentran citologías, retornar error
         if not citologia:
             flash('Citología no encontrada', 'error')
@@ -87,7 +96,7 @@ def show_citology_images(cid: int):
         # -- Reemplazar las barras invertidas por barras diagonales
         paths = [path.replace('\\', '/') for path in paths]
 
-        return render_template('image_carousel.html', images=paths, user_role=current_user.role.value)
+        return render_template('image_carousel.html', images=paths, user_role=current_user.role.value, pacient_user=pacient_user)
     except Exception as e:
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
         return redirect(url_for('get_pacient_page'))
