@@ -46,7 +46,7 @@
             <div class="carousel-inner">
                 {% for image_path in images %}
                     <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                        <img src="{{ url_for('static', filename=image_path) }}" alt="Imagen {{ loop.index }}" class="d-block w-100 rounded">
+                        <img src="{{ url_for('static', filename=image_path) }}" alt="Imagen {{ loop.index }}" class="d-block w-100 rounded" style="width:500px !important">
                     </div>
                 {% endfor %}
             </div>

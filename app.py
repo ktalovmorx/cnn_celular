@@ -330,8 +330,6 @@ def login():
         # -- Redirigir al usuario a la página que intentaba acceder
         next_page = request.args.get('next')
 
-        print(user.role.value, RoleEnum.paciente.value, RoleEnum.doctor.value)
-
         if user.role.value == RoleEnum.paciente.value:
             return redirect(next_page or url_for('get_pacient_page'))
         elif user.role.value == RoleEnum.doctor.value:
