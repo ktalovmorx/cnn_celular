@@ -36,11 +36,11 @@
         <div class="container-fluid cristal" style="border-radius:8px;margin-top:65px">
 
             {% if user_role == "paciente" %}
-                <div class='container-fluid' style='padding:0px'>
-                    <h3>Bienvenido, 🪪 {{ user.username }} {{ user.lastname }}!</h3>
+                <div class='container-fluid' style='padding:0px;margin-top:10px'>
+                    <h3 style="color:white">Bienvenido, 🪪 {{ user.username }} {{ user.lastname }}!</h3>
                 </div>
                 <br/>
-                <h1> Historial del paciente</h1>
+                <h1 style="color:white"> Historial del paciente</h1>
             {% endif %}
 
             <div class='table-responsive' style='display:flex;flex-direction:column;padding:10px'>
