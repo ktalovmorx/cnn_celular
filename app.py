@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 import os
 from cnn.cnn_model import CNNModel
 from cnn import create_app
-from cnn.models import User, Citologia, Diagnostico
+from cnn.models import User, Citologia, ImagenCitologia
 from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError
@@ -64,42 +64,43 @@ def load_user(user_id):
 
 @app.route('/show_image/<int:cid>/<int:uid>', methods=['GET'])
 @login_required
-def show_citology_images(cid: int, uid:int):
+def show_citology_images(cid: int, uid: int):
     '''
     Muestra las imágenes de la citología
-    cid (int) -> Id de la citologia
+    cid (int) -> Id de la citología
     uid (int) -> Id del usuario 
     '''
     try:
-        # -- Obtner todas las citologías del usuario por ID
+        # -- Obtener la citología por ID
         citologia = Citologia.query.filter_by(id=cid).first()
 
         # -- Obtener el paciente asociado
         pacient_user = User.query.get(uid) if uid else None
 
-        if pacient_user == None:
+        if pacient_user is None:
             flash('No se ha encontrado el paciente indicado', 'error')
             return redirect(url_for('get_pacient_list'))
         
-        # Si no se encuentran citologías, retornar error
+        # -- Si no se encuentra la citología, retornar error
         if not citologia:
             flash('Citología no encontrada', 'error')
             return redirect(url_for('get_pacient_list'))
 
-        # -- Verificar si hay imágenes asociadas
-        if not citologia.imagenes:
+        # -- Obtener todas las imágenes asociadas a la citología
+        imagenes = ImagenCitologia.query.filter_by(citologia_id=cid).all()
+
+        if not imagenes:
             flash('No se han encontrado imágenes para esta citología', 'error')
             return redirect(url_for('get_pacient_list'))
         
-        # -- Dividir las rutas de las imágenes por '|'
-        paths = citologia.imagenes.split('|')
-        # -- Reemplazar las barras invertidas por barras diagonales
-        paths = [path.replace('\\', '/') for path in paths]
+        # -- Extraer solo las rutas de las imágenes
+        paths = [img.image_path for img in imagenes]
 
         return render_template('image_carousel.html', images=paths, user_role=current_user.role.value, pacient_user=pacient_user)
+    
     except Exception as e:
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
-        return redirect(url_for('get_pacient_page'))
+        return redirect(url_for('get_pacient_page', uid=uid))
 
 @app.route('/upload', methods=['POST'])
 @login_required
@@ -118,55 +119,61 @@ def upload_file():
             flash('Todos los campos son obligatorios', 'error')
             return render_template('404.html', message="Todos los campos son obligatorios", user_role=current_user.role.value)
 
-        # -- Creamos el nombre de la carpeta combinando el codigo(correo por defecto) y la fecha
+        # -- Crear el nombre de la carpeta
         code_name = codigo.replace('@', '_').replace('.', '_').upper() + '_' + str(fecha).replace('-', '_')
-        pacient_folder = app.config['UPLOAD_PATH'] + '/' + code_name
+        pacient_folder = os.path.join(app.config['UPLOAD_PATH'], code_name)
         
         # -- Crear la carpeta si no existe
         os.makedirs(pacient_folder, exist_ok=True)
 
-        saved_images = []
+        # -- Crear el objeto Citologia sin imágenes aún
+        new_citologia = Citologia(
+            user_id=int(pacient_id),
+            doctor_id=current_user.id,
+            folder=pacient_folder,
+            fecha=fecha,
+            diagnostico='N/A',
+            laboratorio=laboratorio
+        )
+
+        db.session.add(new_citologia)
+        db.session.commit()  # Guardamos la citología antes de asociar imágenes
+
+        # -- Guardar imágenes como registros en ImagenCitologia
         for file in files:
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 filepath = os.path.join(pacient_folder, filename)
                 real_path = f'uploads/{code_name}/{filename}'
 
-                # -- Verificar si la imagen es TIFF
+                # -- Verificar si la imagen es TIFF y convertirla a PNG
                 if filename.lower().endswith('.tiff'):
-                    # -- Convertir de TIFF a PNG
                     with Image.open(file) as img:
                         png_filename = filename.replace('.tiff', '.png')
                         png_filepath = os.path.join(pacient_folder, png_filename)
                         real_path = f'uploads/{code_name}/{png_filename}'
                         img.save(png_filepath, 'PNG')  # Guardar como PNG
-                        saved_images.append(real_path)
+                
                 else:
                     file.save(filepath)
-                    saved_images.append(real_path)
 
-        # -- Guardar en la base de datos
-        new_citologia = Citologia(
-            user_id=int(pacient_id),
-            doctor_id=current_user.id,
-            folder=pacient_folder,
-            fecha=fecha,
-            # -- Guardar rutas separadas por | (barras)
-            imagenes=str("|".join(saved_images)),
-            diagnostico='N/A',
-            laboratorio=laboratorio
-        )
+                # -- Guardar la imagen en la base de datos
+                new_image = ImagenCitologia(
+                    citologia_id=new_citologia.id,
+                    image_path=real_path
+                )
+                db.session.add(new_image)
 
-        db.session.add(new_citologia)
-        db.session.commit()
+        db.session.commit()  # Confirmamos todas las imágenes en la BD
 
         flash('Citología guardada con éxito', 'success')
         return redirect(url_for('get_pacient_page', uid=pacient_id))
 
     except Exception as e:
+        db.session.rollback()  # Revertir cambios en caso de error
         flash(f'Error al subir la citología: {str(e)}', 'error')
         return render_template('notification.html', message=f'Error al subir la citología: {str(e)}')
-    
+
 @app.route('/static/<path:filename>')
 def static_file(filename):
     return send_from_directory(app.static_folder, filename)

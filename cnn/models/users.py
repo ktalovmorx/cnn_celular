@@ -10,10 +10,17 @@ class RoleEnum(Enum):
     doctor = 'doctor'
     admin = 'admin'
 
-# -- Hereda UserMixin para compatibilidad con Flask-Login
+class CategoriaEnum(Enum):
+    ascus = 'ascus'
+    altogrado = 'altogrado'
+    bajogrado = 'bajogrado'
+    benigna = 'benigna'
+
+
 class User(db.Model, UserMixin):
     '''
     Datos de usuarios
+    Hereda de UserMixin para compatibilidad con Flask-Login
     '''
     
     __tablename__ = 'users'
@@ -32,6 +39,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User {self.usermail}, Role: {self.role}>'
 
+
 class Citologia(db.Model):
     '''
     Imagenes de las células
@@ -43,33 +51,36 @@ class Citologia(db.Model):
     doctor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, comment="Relacion con User")
     folder = db.Column(db.String(255), nullable=True, comment="Folder")
     fecha = db.Column(db.Date, nullable=False)
-    imagenes = db.Column(db.Text, nullable=True)
     diagnostico = db.Column(db.String(255), nullable=True)
     laboratorio = db.Column(db.String(255), default="-", nullable=True)
     observacion = db.Column(db.Text, nullable=True, default="-", comment="Observaciones adicionales")
     
-    # Relaciones
+    # -- Relaciones
     user = db.relationship('User', foreign_keys=[user_id], backref=db.backref('citologias_paciente', lazy=True))
     doctor = db.relationship('User', foreign_keys=[doctor_id], backref=db.backref('citologias_doctor', lazy=True))
 
     def __repr__(self):
         return f'<Citologia {self.id}, User: {self.user.username}, Fecha: {self.fecha}>'
-    
-class Diagnostico(db.Model):
-    '''
-    Diagnóstico de las imágenes individuales dentro de una citología
-    '''
-    __tablename__ = 'diagnosticos'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    citologia_id = db.Column(db.Integer, db.ForeignKey('citologias.id'), nullable=False, comment="Relación con Citologia")
-    image_path = db.Column(db.String(255), nullable=False, comment="Ruta de la imagen diagnosticada")
-    categoria = db.Column(db.String(24), nullable=False, comment="Categoria del diagnostico")
-    fecha_revision = db.Column(db.Date, nullable=False, default=lambda: datetime.now(timezone.utc), comment="Fecha de revision")
-    probabilidad = db.Column(db.Float, nullable=False, comment="Probabilidad del diagnostico")
 
-    # Relación con la citología
-    citologia = db.relationship('Citologia', backref=db.backref('diagnosticos', lazy=True))
+
+class ImagenCitologia(db.Model):
+    '''
+    Tabla de imágenes asociadas a una citología, con diagnóstico incluido
+    '''
+    __tablename__ = 'imagenes_citologia'
+
+    id = db.Column(db.Integer, primary_key=True)
+    citologia_id = db.Column(db.Integer, db.ForeignKey('citologias.id', ondelete='CASCADE'), nullable=False, index=True)
+    image_path = db.Column(db.String(255), nullable=False, comment="Ruta de la imagen")
+
+    # Campos de diagnóstico
+    categoria = db.Column(db.Enum(CategoriaEnum), nullable=True, comment="Categoría del diagnóstico")
+    fecha_revision = db.Column(db.Date, nullable=True, default=lambda: datetime.now(timezone.utc), comment="Fecha de revisión")
+    probabilidad = db.Column(db.Float, nullable=True, comment="Probabilidad del diagnóstico")
+
+    # Relación con citología
+    citologia = db.relationship('Citologia', backref=db.backref('imagenes', lazy=True, cascade="all, delete-orphan"))
 
     def __repr__(self):
-        return f'<Diagnostico {self.id}, Citologia: {self.citologia_id}, Imagen: {self.image_path}, Categoria: {self.categoria}, Probabilidad: {self.probabilidad}>'
+        return f'<Imagen {self.id}, Citologia: {self.citologia_id}, Ruta: {self.image_path}, Categoria: {self.categoria}, Probabilidad: {self.probabilidad}>'
+
