@@ -1,7 +1,8 @@
 from enum import Enum
 from .commons import db, UserMixin
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
+
 
 # Definir el Enum para los roles
 class RoleEnum(Enum):
@@ -38,8 +39,8 @@ class Citologia(db.Model):
     __tablename__ = 'citologias'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Relación con User
-    doctor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Relación con User
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, comment="Relacion con User")
+    doctor_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, comment="Relacion con User")
     folder = db.Column(db.String(255), nullable=True, comment="Folder")
     fecha = db.Column(db.Date, nullable=False)
     imagenes = db.Column(db.Text, nullable=True)
@@ -61,11 +62,11 @@ class Diagnostico(db.Model):
     __tablename__ = 'diagnosticos'
     
     id = db.Column(db.Integer, primary_key=True)
-    citologia_id = db.Column(db.Integer, db.ForeignKey('citologias.id'), nullable=False)  # Relación con Citologia
-    image_path = db.Column(db.String(255), nullable=False)  # Ruta de la imagen diagnosticada
-    categoria = db.Column(db.String(24), nullable=False)  # Categoría del diagnóstico
-    fecha_revision = db.Column(db.Date, nullable=False, default=datetime.utcnow)  # Fecha de revisión
-    probabilidad = db.Column(db.Float, nullable=False)  # Probabilidad del diagnóstico
+    citologia_id = db.Column(db.Integer, db.ForeignKey('citologias.id'), nullable=False, comment="Relación con Citologia")
+    image_path = db.Column(db.String(255), nullable=False, comment="Ruta de la imagen diagnosticada")
+    categoria = db.Column(db.String(24), nullable=False, comment="Categoria del diagnostico")
+    fecha_revision = db.Column(db.Date, nullable=False, default=lambda: datetime.now(timezone.utc), comment="Fecha de revision")
+    probabilidad = db.Column(db.Float, nullable=False, comment="Probabilidad del diagnostico")
 
     # Relación con la citología
     citologia = db.relationship('Citologia', backref=db.backref('diagnosticos', lazy=True))
