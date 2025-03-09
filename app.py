@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 import os
 from cnn.cnn_model import CNNModel
 from cnn import create_app
-from cnn.models import User, Citologia
+from cnn.models import User, Citologia, Diagnostico
 from dotenv import load_dotenv
 from enum import Enum
 from sqlalchemy.exc import IntegrityError

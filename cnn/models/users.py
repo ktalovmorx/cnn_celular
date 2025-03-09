@@ -1,6 +1,7 @@
 from enum import Enum
 from .commons import db, UserMixin
 from sqlalchemy.orm import relationship
+from datetime import datetime
 
 # Definir el Enum para los roles
 class RoleEnum(Enum):
@@ -52,3 +53,22 @@ class Citologia(db.Model):
 
     def __repr__(self):
         return f'<Citologia {self.id}, User: {self.user.username}, Fecha: {self.fecha}>'
+    
+class Diagnostico(db.Model):
+    '''
+    Diagnóstico de las imágenes individuales dentro de una citología
+    '''
+    __tablename__ = 'diagnosticos'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    citologia_id = db.Column(db.Integer, db.ForeignKey('citologias.id'), nullable=False)  # Relación con Citologia
+    image_path = db.Column(db.String(255), nullable=False)  # Ruta de la imagen diagnosticada
+    categoria = db.Column(db.String(24), nullable=False)  # Categoría del diagnóstico
+    fecha_revision = db.Column(db.Date, nullable=False, default=datetime.utcnow)  # Fecha de revisión
+    probabilidad = db.Column(db.Float, nullable=False)  # Probabilidad del diagnóstico
+
+    # Relación con la citología
+    citologia = db.relationship('Citologia', backref=db.backref('diagnosticos', lazy=True))
+
+    def __repr__(self):
+        return f'<Diagnostico {self.id}, Citologia: {self.citologia_id}, Imagen: {self.image_path}, Categoria: {self.categoria}, Probabilidad: {self.probabilidad}>'
