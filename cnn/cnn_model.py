@@ -48,7 +48,7 @@ class CNNModel(object):
         self.source_folders = [("./train_altogrado", "./dataset/altogrado"), ("./train_ascus", "./dataset/ascus"), ("./train_bajogrado", "./dataset/bajogrado"), ("./train_benigna","./dataset/benigna")]
 
     @staticmethod
-    def load_h5_model(self, model_path:str):
+    def load_h5_model(model_path:str):
         '''
         Cargar el modelo desde el archivo H5
         '''
