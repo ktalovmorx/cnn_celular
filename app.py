@@ -133,7 +133,7 @@ def show_citology_images(cid: int, uid: int):
                                images=imagenes, 
                                user_role=current_user.role.value, 
                                pacient_user=pacient_user,
-                               citologia=citologia,
+                               observacion=citologia.observacion,
                                cid=cid,
                                uid=uid)
 

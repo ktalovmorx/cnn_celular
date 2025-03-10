@@ -38,12 +38,11 @@
         
         <!-- Carrusel -->
         <form action="/update_cid/{{cid}}/{{uid}}" method="post" enctype="multipart/form-data" style="margin-bottom:10px">
-            <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="Indique una observación..." style="margin-bottom:10px" value="{{citoligia.observacion}}"></textarea>
+            <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="Indique una observación..." style="margin-bottom:10px;width:500px">{{observacion}}</textarea>
             <button class="btn btn-success" type="submit">Actualizar</button>
         </form>
 
         <div id="citologias_img" class="carousel slide" data-bs-ride="carousel">
-            
             <div class="carousel-indicators">
                 {% for image in images %}
                     <button type="button" data-bs-target="#citologias_img" data-bs-slide-to="{{ loop.index0 }}" 
