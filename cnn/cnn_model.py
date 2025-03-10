@@ -11,7 +11,6 @@ from io import BytesIO
 import cv2
 import requests
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import load_model
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
@@ -48,12 +47,12 @@ class CNNModel(object):
         self.source_folders = [("./train_altogrado", "./dataset/altogrado"), ("./train_ascus", "./dataset/ascus"), ("./train_bajogrado", "./dataset/bajogrado"), ("./train_benigna","./dataset/benigna")]
 
     @staticmethod
-    def load_h5_model(model_path:str):
+    def load_h5_model(path:str):
         '''
         Cargar el modelo desde el archivo H5
         '''
-        print(model_path)
-        return load_model(f"{model_path}")
+        print(path)
+        return tf.keras.models.load_model(path)
     
     @staticmethod
     def categorizador_web(model:object, url:str) -> int:
@@ -179,21 +178,21 @@ class CNNModel(object):
         print(self.data_gen_entrenamiento.class_indices , f'BATCHES = {len(self.data_gen_entrenamiento)}')
         print(self.data_gen_pruebas.class_indices, f'BATCHES = {len(self.data_gen_pruebas)}')
 
-    def save_predictor(self, predictor_path:str):
+    def save_predictor(self, path:str):
         '''
         Almacena el predictor en un archivo
         '''
 
         data = {v:k for k,v in self.data_gen_entrenamiento.class_indices.items()}
-        with open(predictor_path, 'wb') as f:
+        with open(path, 'wb') as f:
             pickle.dump(data, f)
 
-    def get_predictor(predictor_path:str):
+    def get_predictor(path:str):
         '''
         Obtiene el predictor desde un archivo
         '''
 
-        with open(predictor_path, 'rb') as f:
+        with open(path, 'rb') as f:
             return pickle.load(f)
 
     def create_model(self):
@@ -243,4 +242,4 @@ if __name__ == '__main__':
     #cnn.set_folder_minor_image_number()
     cnn.create_image_generator()
     cnn.create_model()
-    cnn.save_predictor(predictor_path=PREDICTOR_NAME)
+    cnn.save_predictor(path=PREDICTOR_NAME)
