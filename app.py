@@ -176,7 +176,7 @@ def upload_file():
                     file.save(filepath)
 
                 # -- Guardar la imagen en la base de datos
-                new_image = ImagenCitologia(
+                _image = ImagenCitologia(
                     citologia_id=new_citologia.id,
                     image_path=real_path
                 )
@@ -184,7 +184,7 @@ def upload_file():
                 # -- Categorizar la imagen usando el modelo
                 #diagnosticar(file_path=filepath)
 
-                db.session.add(new_image)
+                db.session.add(_image)
 
         # -- Confirmar todas las imágenes en la BD
         db.session.commit()
