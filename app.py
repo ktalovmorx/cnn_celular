@@ -33,7 +33,7 @@ try:
 except:
     raise ValueError("PORT variable is not defined")
 
-# Crear la aplicación Flask
+# -- Crear la aplicación Flask
 app, db = create_app()
 
 login_manager = LoginManager(app)
@@ -175,7 +175,7 @@ def upload_file():
             flash('Todos los campos son obligatorios', 'error')
             return render_template('404.html', message="Todos los campos son obligatorios", user_role=current_user.role.value)
 
-        # -- Crear el nombre de la carpeta
+        # -- Crear el nombre de la carpeta donde se alojaran las imagenes del usuario
         code_name = codigo.replace('@', '_').replace('.', '_').upper() + '_' + str(fecha).replace('-', '_')
         pacient_folder = os.path.join(app.config['UPLOAD_PATH'], code_name)
         
@@ -268,10 +268,10 @@ def get_pacient_page(uid=None):
     Retorna la pagina del paciente
     '''
 
-    # Si se proporciona un `uid`, buscar el usuario en la base de datos
+    # -- Si se pasa un 'uid', buscamos el usuario en la base de datos
     pacient_user = User.query.get(uid) if uid else current_user
 
-    # Si no existe el usuario con ese `uid`, redirigir con un mensaje de error
+    # -- Si no existe el usuario redirigimos con un mensaje de error
     if not pacient_user:
         flash('Usuario no encontrado', 'error')
         return render_template('notification.html', message='Usuario no encontrado')
@@ -318,7 +318,7 @@ def new_account():
         # -- Hashear la contraseña
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-        # Guardar usuario en la base de datos
+        # -- Guardar usuario en la base de datos
         new_user = User(usermail=usermail,
                         password_hash=hashed_password,
                         username=username,
@@ -362,7 +362,7 @@ def login():
     usermail = request.form.get('usermail')
     password = request.form.get('password')
 
-    # Buscar al usuario en la base de datos
+    # -- Buscar al usuario en la base de datos
     user = User.query.filter_by(usermail=usermail).first()
 
     if user and bcrypt.check_password_hash(user.password_hash, password):

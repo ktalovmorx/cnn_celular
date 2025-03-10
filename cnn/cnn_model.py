@@ -238,8 +238,12 @@ class CNNModel(object):
 
 if __name__ == '__main__':
     cnn = CNNModel()
-    #cnn.procesar_imagenes()
-    #cnn.set_folder_minor_image_number()
+
+    # -- Comentar luego del primer entrenamiento para agilizar (a menos que borres las imágenes en tal caso volver a ejecutar con estas líneas)
+    cnn.procesar_imagenes()
+    cnn.set_folder_minor_image_number()
+
+    # -- Ejecutar siempre
     cnn.create_image_generator()
     cnn.create_model()
     cnn.save_predictor(path=PREDICTOR_NAME)
