@@ -49,9 +49,8 @@ class CNNModel(object):
     @staticmethod
     def load_model(path:str):
         '''
-        Cargar el modelo desde el archivo H5
+        Cargar el modelo desde el archivo SavedModel
         '''
-        print(path)
         return tf.keras.models.load_model(path)
     
     @staticmethod
