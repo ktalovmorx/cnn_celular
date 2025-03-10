@@ -1,7 +1,7 @@
 from enum import Enum
 from .commons import db, UserMixin
 from sqlalchemy.orm import relationship
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 
 
 # Definir el Enum para los roles
@@ -39,6 +39,13 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User {self.usermail}, Role: {self.role}>'
 
+    def calcular_edad(self):
+        '''
+        Calcula la edad del paciente
+        '''
+        
+        today = date.today()
+        return today.year - self.birthday.year
 
 class Citologia(db.Model):
     '''
