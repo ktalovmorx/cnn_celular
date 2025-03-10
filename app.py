@@ -156,9 +156,10 @@ def upload_file():
         Categorizar la imagen con el modelo
         '''
 
+        print(f'Categorizando {file_path}...')
         # -- Realizar la predicción
         try:
-            cat_id = CNNModel.categorizador_local(model=modelo, path=file_path)
+            cat_id = CNNModel.categorizador_local(model=modelo, path=fr'{file_path}')
             return jsonify({'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
         except Exception as e:
             return jsonify({'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
@@ -213,7 +214,7 @@ def upload_file():
                         png_filepath = os.path.join(pacient_folder, png_filename)
                         real_path = f'uploads/{code_name}/{png_filename}'
                         img.save(png_filepath, 'PNG')  # Guardar como PNG
-                
+                        filepath = png_filepath
                 else:
                     file.save(filepath)
 
