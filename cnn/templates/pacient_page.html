@@ -69,7 +69,8 @@
     
             {% if user_role == "doctor" %}
                 <div class="container-fluid" name="nueva_citologia">
-                    <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva Citología</button>
+                    <button class="btn btn-info bnt-sm" data-bs-toggle="collapse" data-bs-target="#new_cit">🗓️ Nueva Citología</button>
+                    <a class="btn btn-info btn-md" href="/pacient_list">🙋‍♂️ Pacientes</a>
                     <div id="new_cit" class="collapse" style="margin-top:25px">
                         <form action="/upload" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
