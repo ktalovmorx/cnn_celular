@@ -62,6 +62,42 @@ def allowed_file(filename):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+@app.route('/update_cid/<int:cid>/<int:uid>', methods=['POST'])
+@login_required
+def update_citologia(cid: int, uid:int):
+    try:
+        # -- Obtener el comentario del formulario
+        comment = request.form.get('comment')
+
+        # -- Validar si el comentario está vacío
+        if not comment:
+            flash('El comentario no puede estar vacío.', 'error')
+            return redirect(url_for('show_citology_images', cid=cid, uid=uid))
+
+        # --  Buscar la citología por ID
+        citologia = Citologia.query.get(cid)
+
+        # -- Verificar si la citología existe
+        if not citologia:
+            flash('Citología no encontrada', 'error')
+            return redirect(url_for('get_pacient_list'))
+
+        # -- Actualizar el campo observación en la citología
+        citologia.observacion = comment
+
+        # -- Guardar los cambios en la base de datos
+        db.session.commit()
+
+        # -- Dejar mensaje
+        flash('Observación actualizada con éxito', 'success')
+
+        # -- Redirigir a la pagina actual
+        return redirect(url_for('show_citology_images', cid=cid, uid=uid))
+
+    except Exception as e:
+        flash(f'Error al actualizar la citología: {str(e)}', 'error')
+        return redirect(url_for('get_pacient_list'))
+
 @app.route('/show_image/<int:cid>/<int:uid>', methods=['GET'])
 @login_required
 def show_citology_images(cid: int, uid: int):
@@ -97,7 +133,9 @@ def show_citology_images(cid: int, uid: int):
         return render_template('image_carousel.html', 
                                images=imagenes, 
                                user_role=current_user.role.value, 
-                               pacient_user=pacient_user) 
+                               pacient_user=pacient_user,
+                               cid=cid,
+                               uid=uid)
 
     except Exception as e:
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
