@@ -238,8 +238,8 @@ class CNNModel(object):
 
 if __name__ == '__main__':
     cnn = CNNModel()
-    cnn.procesar_imagenes()
-    cnn.set_folder_minor_image_number()
+    #cnn.procesar_imagenes()
+    #cnn.set_folder_minor_image_number()
     cnn.create_image_generator()
     cnn.create_model()
     cnn.save_predictor(predictor_path=PREDICTOR_NAME)
