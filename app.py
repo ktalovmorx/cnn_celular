@@ -37,7 +37,8 @@ except:
 app, db = create_app()
 
 login_manager = LoginManager(app)
-login_manager.login_view = "login"  # -- Redirigir a la vista /login si no está autenticado
+ # -- Redirigir a la vista /login si no está autenticado
+login_manager.login_view = "login"
 
 #Manejar contraseñas de forma segura
 bcrypt = flask_bcrypt.Bcrypt(app)
@@ -147,16 +148,16 @@ def diagnosticar(file_path:str):
     Categorizar la imagen con el modelo
     '''
 
-    # -- Cargar el modelo
+    # -- Cargar el modelo y el predictor
     CNNModel.load_h5_model(model_path=f'./cnn/{MODEL_NAME}')
     predictor = CNNModel.get_predictor(predictor_path=f'./cnn/{PREDICTOR_NAME}')
 
     # -- Realizar la predicción
     try:
         cat_id = CNNModel.categorizador_local(file_path)
-        return jsonify({'diagnostico': predictor[cat_id].upper()}), 200
+        return jsonify({'diagnostico': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
     except Exception as e:
-        return jsonify({'error': 'Ocurrió un error al procesar la imagen', 'details': str(e)}), 500
+        return jsonify({'diagnostico': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
 
 @app.route('/upload', methods=['POST'])
 @login_required
@@ -222,7 +223,7 @@ def upload_file():
                 )
 
                 # -- Categorizar la imagen usando el modelo
-                #diagnosticar(file_path=filepath)
+                diagnosticar(file_path=filepath)
 
                 db.session.add(_image)
 
