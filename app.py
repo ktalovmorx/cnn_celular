@@ -162,7 +162,7 @@ def upload_file():
             cat_id = CNNModel.categorizador_local(model=modelo, path=fr'{file_path}')
             return {'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'}
         except Exception as e:
-            return {'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)}
+            return {'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'ERROR', 'message':str(e)}
     
     try:
         fecha = request.form.get('citologia-date')
