@@ -216,7 +216,8 @@ def upload_file():
                 # -- Guardar la imagen en la base de datos
                 _image = ImagenCitologia(
                     citologia_id=new_citologia.id,
-                    image_path=real_path
+                    image_path=real_path,
+                    image_name=real_path.split('/')[-1]
                 )
 
                 # -- Categorizar la imagen usando el modelo

@@ -72,13 +72,14 @@ class ImagenCitologia(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     citologia_id = db.Column(db.Integer, db.ForeignKey('citologias.id', ondelete='CASCADE'), nullable=False, index=True)
     image_path = db.Column(db.String(255), nullable=False, comment="Ruta de la imagen")
+    image_name = db.Column(db.String(255), nullable=True, default="-", comment="Nombre de la imagen")
 
-    # Campos de diagnóstico
+    # -- Campos de diagnóstico
     categoria = db.Column(db.Enum(CategoriaEnum), nullable=True, comment="Categoría del diagnóstico")
     fecha_revision = db.Column(db.Date, nullable=True, default=lambda: datetime.now(timezone.utc), comment="Fecha de revisión")
-    probabilidad = db.Column(db.Float, nullable=True, comment="Probabilidad del diagnóstico")
+    probabilidad = db.Column(db.Float, nullable=True, default=0.0, comment="Probabilidad del diagnóstico")
 
-    # Relación con citología
+    # -- Relación con citología
     citologia = db.relationship('Citologia', backref=db.backref('imagenes', lazy=True, cascade="all, delete-orphan"))
 
     def __repr__(self):
