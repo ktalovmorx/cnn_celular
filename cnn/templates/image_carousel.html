@@ -79,8 +79,8 @@
                                     <div class="container-fluid" style="display:flex;flex-direction: column;">
                                         {% for image in images %}
                                             {% if image.categoria.value == 'ascus'%}
-                                                <span style="font-size:10px">{{image.image_name}}</span>
-                                                <span style="font-size:10px">{{image.probabilidad}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.image_name}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
                                                 <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
@@ -90,8 +90,8 @@
                                     <div class="container-fluid" style="display:flex;flex-direction: column;">
                                         {% for image in images %}
                                             {% if image.categoria.value == 'bajogrado'%}
-                                                <span style="font-size:10px">{{image.image_name}}</span>
-                                                <span style="font-size:10px">{{image.probabilidad}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.image_name}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
                                                 <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
@@ -101,8 +101,8 @@
                                     <div class="container-fluid" style="display:flex;flex-direction: column;">
                                         {% for image in images %}
                                             {% if image.categoria.value == 'altogrado'%}
-                                                <span style="font-size:10px">{{image.image_name}}</span>
-                                                <span style="font-size:10px">{{image.probabilidad}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.image_name}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
                                                 <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
@@ -112,8 +112,8 @@
                                     <div class="container-fluid" style="display:flex;flex-direction: column;">
                                         {% for image in images %}
                                             {% if image.categoria.value == 'benigna'%}
-                                                <span style="font-size:10px">{{image.image_name}}</span>
-                                                <span style="font-size:10px">{{image.probabilidad}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.image_name}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
                                                 <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
@@ -123,8 +123,8 @@
                                     <div class="container-fluid" style="display:flex;flex-direction: column;">
                                         {% for image in images %}
                                             {% if not image.categoria.value %}
-                                                <span style="font-size:10px">{{image.image_name}}</span>
-                                                <span style="font-size:10px">{{image.probabilidad}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.image_name}}</span>
+                                                <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
                                                 <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
