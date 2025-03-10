@@ -33,20 +33,31 @@
 
     <div class="container-fluid content_body" style="width:100%">
         <div style="color:white;text-align: left;">
-            <strong>{{pacient_user.username}} {{pacient_user.lastname}}</strong>
+            <strong>{{ pacient_user.username }} {{ pacient_user.lastname }}</strong>
         </div>
+        
         <!-- Carrusel -->
         <div id="citologias_img" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
-                {% for image_path in images %}
-                    <button type="button" data-bs-target="#citologias_img" data-bs-slide-to="{{ loop.index0 }}" class="{{ 'active' if loop.index == 1 else '' }}" title="{{image_path}}"></button>
+                {% for image in images %}
+                    <button type="button" data-bs-target="#citologias_img" data-bs-slide-to="{{ loop.index0 }}" 
+                            class="{{ 'active' if loop.index == 1 else '' }}" title="{{ image.image_path }}">
+                    </button>
                 {% endfor %}
             </div>
-
+    
             <div class="carousel-inner">
-                {% for image_path in images %}
+                {% for image in images %}
                     <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                        <img src="{{ url_for('static', filename=image_path) }}" alt="Imagen {{ loop.index }}" class="d-block w-100 rounded" style="width:500px !important">
+                        <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" 
+                             class="d-block w-100 rounded" style="width:500px !important">
+    
+                        <!-- Mostrar detalles de la imagen -->
+                        <div class="carousel-caption d-none d-md-block">
+                            <p><strong>Categoría:</strong> {{ image.categoria or '-'}}</p>
+                            <p><strong>Probabilidad:</strong> {{ image.probabilidad if image.probabilidad is not none else '-' }}{% if image.probabilidad is not none %}%{% endif %}</p>
+                            <p><strong>Fecha de revisión:</strong> {{ image.fecha_revision or '-'}}</p>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
@@ -58,9 +69,11 @@
                 <span class="carousel-control-next-icon"></span>
             </button>
         </div>
+    
         <div>
-            <button onclick="window.history.back()" class="btn btn-warning" style="margin:5px;min-width:224px" title="Regresar a las citologias del usuario">👈 Volver</button>
+            <button onclick="window.history.back()" class="btn btn-warning" style="margin:5px;min-width:224px" 
+                    title="Regresar a las citologías del usuario">👈 Volver</button>
         </div>
-    </div>
+    </div>    
     
 {% endblock %}

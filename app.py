@@ -93,14 +93,16 @@ def show_citology_images(cid: int, uid: int):
             flash('No se han encontrado imágenes para esta citología', 'error')
             return redirect(url_for('get_pacient_list'))
         
-        # -- Extraer solo las rutas de las imágenes
-        paths = [img.image_path for img in imagenes]
+        # -- Pasar las imágenes completas al template
+        return render_template('image_carousel.html', 
+                               images=imagenes, 
+                               user_role=current_user.role.value, 
+                               pacient_user=pacient_user) 
 
-        return render_template('image_carousel.html', images=paths, user_role=current_user.role.value, pacient_user=pacient_user)
-    
     except Exception as e:
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
-        return redirect(url_for('get_pacient_page', uid=uid))
+        return redirect(url_for('get_pacient_page'))
+
 
 @app.route('/upload', methods=['POST'])
 @login_required
