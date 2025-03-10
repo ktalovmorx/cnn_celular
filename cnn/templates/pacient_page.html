@@ -60,6 +60,11 @@
                             <td><span><strong>Telefono:</strong>{{ user.phone_number }}</span></td>
                             <td><span><strong>Email:</strong>{{ user.usermail }}</span></td>
                         </tr>
+                        <tr>
+                            <td><span><strong>Edad:</strong>{{user.calcular_edad()}}</span></td>
+                            <td><span>-</span></td>
+                            <td><span>-</span></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
