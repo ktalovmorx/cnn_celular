@@ -38,6 +38,7 @@
                 <table class="table table-hover table-stripped table-light table-bordered">
                     <thead class="table-primary">
                         <tr>
+                            <th>Acción</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Correo</th>
@@ -51,9 +52,10 @@
                     <tbody>
                         {% for paciente in pacientes %}
                             <tr>
+                                <td><a class="badge bg-warning" style="color:black;text-decoration:none;cursor:pointer" href="/pacient_page/{{paciente.id}}" title="Haga click para ver esta citología">Ver</a></td>
                                 <td>{{ paciente.username }}</td>
                                 <td>{{ paciente.lastname }}</td>
-                                <td><a class="badge bg-warning" style="color:black;text-decoration:none;cursor:pointer" href="/pacient_page/{{paciente.id}}" title="Haga click para ver esta citología">{{ paciente.usermail }}</a></td>
+                                <td>{{ paciente.usermail }}</td>
                                 <td>{{ paciente.phone_number }}</td>
                                 <td>{{ paciente.birthday }}</td>
                                 <td>{{ paciente.calcular_edad() }}</td>
