@@ -55,6 +55,7 @@ class CNNModel(object):
         img = np.array(img).astype(float)/255
         img = cv2.resize(img, (224,224))
         prediccion = model.predict(img.reshape(-1, 224, 224, 3))
+        
         return np.argmax(prediccion[0], axis=-1)
 
     @staticmethod
@@ -63,6 +64,7 @@ class CNNModel(object):
         img = np.array(img).astype(float)/255
         img = cv2.resize(img, (CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE))
         prediccion = model.predict(img.reshape(-1, CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE, 3))
+
         return np.argmax(prediccion[0], axis=-1)
 
     @staticmethod
