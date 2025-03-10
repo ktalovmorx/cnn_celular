@@ -151,7 +151,7 @@ def diagnosticar(file_path:str):
     # -- Cargar el modelo y el predictor
     predictor = CNNModel.get_predictor(path=f'./cnn/{PREDICTOR_NAME}')
     print(predictor)
-    modelo = CNNModel.load_h5_model(path=f'./cnn/{MODEL_NAME}')
+    modelo = CNNModel.load_model(path=f'./cnn/{MODEL_NAME}')
     print('MODELO >', modelo)
 
     # -- Realizar la predicción
