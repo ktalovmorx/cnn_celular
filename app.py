@@ -197,10 +197,7 @@ def upload_file():
 
         # -- Cargar el modelo y el predictor
         predictor = CNNModel.get_predictor(path=APP_PREDICTOR_NAME)
-        print(predictor, APP_PREDICTOR_NAME)
-        print(APP_MODEL_NAME)
         modelo = CNNModel.load_model(path=APP_MODEL_NAME)
-        print('MODELO >', modelo)
 
         # -- Guardar imágenes como registros en ImagenCitologia
         for file in files:
