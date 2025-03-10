@@ -28,8 +28,8 @@ _logger = logging.getLogger(__name__)
 # -- Read .env file
 try:
     PORT = int(os.getenv('flask_port'))
-    MODEL_NAME = os.getenv('model_name')
-    PREDICTOR_NAME = os.getenv('predictor_name')
+    APP_MODEL_NAME = os.getenv('model_name')
+    APP_PREDICTOR_NAME = os.getenv('predictor_name')
 except:
     raise ValueError("PORT variable is not defined")
 
@@ -196,9 +196,10 @@ def upload_file():
         db.session.commit()
 
         # -- Cargar el modelo y el predictor
-        predictor = CNNModel.get_predictor(path=PREDICTOR_NAME)
-        print(predictor)
-        modelo = CNNModel.load_model(path=MODEL_NAME)
+        predictor = CNNModel.get_predictor(path=APP_PREDICTOR_NAME)
+        print(predictor, APP_PREDICTOR_NAME)
+        print(APP_MODEL_NAME)
+        modelo = CNNModel.load_model(path=APP_MODEL_NAME)
         print('MODELO >', modelo)
 
         # -- Guardar imágenes como registros en ImagenCitologia
