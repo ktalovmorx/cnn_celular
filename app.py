@@ -93,7 +93,6 @@ def update_citologia(cid: int, uid:int):
 
         # -- Redirigir a la pagina actual
         return redirect(url_for('show_citology_images', cid=cid, uid=uid))
-
     except Exception as e:
         flash(f'Error al actualizar la citología: {str(e)}', 'error')
         return redirect(url_for('get_pacient_list'))
@@ -134,6 +133,7 @@ def show_citology_images(cid: int, uid: int):
                                images=imagenes, 
                                user_role=current_user.role.value, 
                                pacient_user=pacient_user,
+                               citologia=citologia,
                                cid=cid,
                                uid=uid)
 
