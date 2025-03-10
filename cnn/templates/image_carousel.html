@@ -135,8 +135,7 @@
                         <form action="/update_cid/{{cid}}/{{uid}}" method="post" enctype="multipart/form-data" style="margin-bottom:10px">
                             <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="Indique una observación..." style="margin-bottom:10px;width:500px">{{observacion}}</textarea>
                             <button class="btn btn-dark" type="submit">Actualizar</button>
-                            <button onclick="window.history.back()" class="btn btn-dark" style="margin:5px;min-width:224px" 
-                            title="Regresar a las citologías del usuario">⬅️ Atrás</button>
+                            <a class="btn btn-dark" href="/pacient_page/{{uid}}" style="margin:5px;" title="Regresar a las citologías del usuario">⬅️ Atrás</a>
                         </form>
                     </div>
                 </div>
