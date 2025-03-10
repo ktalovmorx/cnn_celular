@@ -52,6 +52,7 @@ class CNNModel(object):
         '''
         Cargar el modelo desde el archivo H5
         '''
+        print(model_path)
         return load_model(f"{model_path}")
     
     @staticmethod
@@ -187,7 +188,7 @@ class CNNModel(object):
         with open(predictor_path, 'wb') as f:
             pickle.dump(data, f)
 
-    def get_predictor(self, predictor_path:str):
+    def get_predictor(predictor_path:str):
         '''
         Obtiene el predictor desde un archivo
         '''

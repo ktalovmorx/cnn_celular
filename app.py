@@ -149,12 +149,14 @@ def diagnosticar(file_path:str):
     '''
 
     # -- Cargar el modelo y el predictor
-    CNNModel.load_h5_model(model_path=f'./cnn/{MODEL_NAME}')
     predictor = CNNModel.get_predictor(predictor_path=f'./cnn/{PREDICTOR_NAME}')
-
+    print(predictor)
+    modelo = CNNModel.load_h5_model(model_path=f'./cnn/{MODEL_NAME}')
+    print(modelo)
+    
     # -- Realizar la predicción
     try:
-        cat_id = CNNModel.categorizador_local(file_path)
+        cat_id = CNNModel.categorizador_local(model=modelo, path=file_path)
         return jsonify({'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
     except Exception as e:
         return jsonify({'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
