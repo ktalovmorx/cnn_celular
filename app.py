@@ -155,9 +155,9 @@ def diagnosticar(file_path:str):
     # -- Realizar la predicción
     try:
         cat_id = CNNModel.categorizador_local(file_path)
-        return jsonify({'diagnostico': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
+        return jsonify({'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
     except Exception as e:
-        return jsonify({'diagnostico': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
+        return jsonify({'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
 
 @app.route('/upload', methods=['POST'])
 @login_required
@@ -223,7 +223,12 @@ def upload_file():
                 )
 
                 # -- Categorizar la imagen usando el modelo
-                diagnosticar(file_path=filepath)
+                result = diagnosticar(file_path=filepath)
+                if result.status == 'success':
+                    print(result)
+                    _image.categoria = result.categoria
+                else:
+                    _image.categoria = None
 
                 db.session.add(_image)
 
