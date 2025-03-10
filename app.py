@@ -143,16 +143,10 @@ def show_citology_images(cid: int, uid: int):
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
         return redirect(url_for('get_pacient_page'))
 
-def diagnosticar(file_path:str):
+def diagnosticar(modelo:object, predictor:dict, file_path:str):
     '''
     Categorizar la imagen con el modelo
     '''
-
-    # -- Cargar el modelo y el predictor
-    predictor = CNNModel.get_predictor(path=f'./cnn/{PREDICTOR_NAME}')
-    print(predictor)
-    modelo = CNNModel.load_model(path=f'./cnn/{MODEL_NAME}')
-    print('MODELO >', modelo)
 
     # -- Realizar la predicción
     try:
@@ -199,6 +193,12 @@ def upload_file():
         # -- Confirmar la citología antes de asociar imágenes
         db.session.commit()
 
+        # -- Cargar el modelo y el predictor
+        predictor = CNNModel.get_predictor(path=f'./cnn/{PREDICTOR_NAME}')
+        print(predictor)
+        modelo = CNNModel.load_model(path=f'./cnn/{MODEL_NAME}')
+        print('MODELO >', modelo)
+
         # -- Guardar imágenes como registros en ImagenCitologia
         for file in files:
             if file and allowed_file(file.filename):
@@ -225,7 +225,7 @@ def upload_file():
                 )
 
                 # -- Categorizar la imagen usando el modelo
-                result = diagnosticar(file_path=filepath)
+                result = diagnosticar(modelo=modelo, predictor=predictor, file_path=filepath)
                 if result.status == 'success':
                     print(result)
                     _image.categoria = result.categoria

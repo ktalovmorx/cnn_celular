@@ -51,6 +51,8 @@ class CNNModel(object):
         '''
         Cargar el modelo desde el archivo SavedModel
         '''
+        import tensorflow as tf
+        
         return tf.keras.models.load_model(path)
     
     @staticmethod
