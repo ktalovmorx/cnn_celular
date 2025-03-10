@@ -24,9 +24,9 @@ load_dotenv()
 try:
     MODEL_NAME = os.getenv('model_name')
     PREDICTOR_NAME = os.getenv('predictor_name')
-    BATCH_SIZE = os.getenv('batch_size')
-    EPOCHS = os.getenv('epochs')
-    IMAGE_SIZE = os.getenv('image_size')
+    BATCH_SIZE = int(float(os.getenv('batch_size')))
+    EPOCHS = int(float(os.getenv('epochs')))
+    IMAGE_SIZE = int(float(os.getenv('image_size')))
 except Exception as e:
     raise ValueError(f"Error: {e}")
 
