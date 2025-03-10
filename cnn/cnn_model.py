@@ -15,7 +15,7 @@ import pickle
 import warnings
 warnings.filterwarnings('ignore')
 
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = 0
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -55,7 +55,7 @@ class CNNModel(object):
         res = requests.get(url)
         img = Image.open(BytesIO(res.content))
         img = np.array(img).astype(float)/255
-        img = cv2.resize(img, (224,224))
+        img = cv2.resize(img, (224, 224))
         prediccion = model.predict(img.reshape(-1, 224, 224, 3))
 
         return np.argmax(prediccion[0], axis=-1)
@@ -196,16 +196,13 @@ class CNNModel(object):
         print('Creando el modelo...')
         # -- Cargar el modelo preentrenado de MobileNetV2 desde TensorFlow Hub
         url = "https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4"
-        mobile_net_v2 = hub.KerasLayer(url, input_shape=(224, 224, 3), trainable=False)
+        mobile_net_v2 = hub.KerasLayer(url, input_shape=(CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE, 3), trainable=False)
 
         # -- INPUT SHAPE es la forma de entrada que espera el modelo, en este caso 224x224x3
 
         print(' Construyendo el modelo p1...')
         # -- Definir el modelo secuencial
-        modelo = tf.keras.Sequential([
-            mobile_net_v2,
-            tf.keras.layers.Dense(4, activation="softmax")
-        ])
+        modelo = tf.keras.Sequential([mobile_net_v2, tf.keras.layers.Dense(4, activation="softmax")])
 
         # -- Construir el modelo con la forma de entrada esperada
         # -- El None en este caso indica que puede recibir cualquier cantidad de imagenes
