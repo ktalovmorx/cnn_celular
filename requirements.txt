@@ -18,4 +18,5 @@ seaborn
 gunicorn
 python-dotenv
 opencv-python
+ipykernel
 #pip install -r requirements.txt

@@ -1,4 +1,6 @@
 import os
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
 import glob
 import shutil
 import tensorflow as tf
@@ -15,10 +17,12 @@ import pickle
 import warnings
 warnings.filterwarnings('ignore')
 
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = 0
-
 from dotenv import load_dotenv
 load_dotenv()
+
+print(tf.__version__)
+print(np.__version__)
+print(hub.__version__)
 
 # -- Leer el archivo .env
 try:
@@ -55,8 +59,8 @@ class CNNModel(object):
         res = requests.get(url)
         img = Image.open(BytesIO(res.content))
         img = np.array(img).astype(float)/255
-        img = cv2.resize(img, (224, 224))
-        prediccion = model.predict(img.reshape(-1, 224, 224, 3))
+        img = cv2.resize(img, (CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE))
+        prediccion = model.predict(img.reshape(-1, CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE, 3))
 
         return np.argmax(prediccion[0], axis=-1)
 
@@ -92,6 +96,7 @@ class CNNModel(object):
         Procesa todas las imagenes de los directorios
         '''
 
+        print('Procesando imagenes...')
         directorios = ["train_altogrado", "train_ascus", "train_bajogrado", "train_benigna"]
         for _dir in self.directorios:
             # -- Establecemos el directorio base
@@ -114,6 +119,7 @@ class CNNModel(object):
         Asigna el total de imagenes de las carpetas con la categoria que tiene menos numero de imagenes
         '''
 
+        print('Estableciendo maximo de imagenes a utilizar...')
         # -- Mostramos el total de imagenes por carpeta
         totales = []
         # -- Obtenemos el total de caracteres maximo del nombre de las rutas para hacer un formateo
@@ -147,6 +153,7 @@ class CNNModel(object):
         Crear un generador de imagenes
         '''
 
+        print('Creando generadores de imagenes...')
         # -- Crea el dataset generador
         datagen = ImageDataGenerator(rescale=1./255, rotation_range=30, width_shift_range=0.25, height_shift_range=0.25, shear_range=15,  zoom_range=[0.5, 1.5], validation_split=0.2)
 
