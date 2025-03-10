@@ -15,6 +15,8 @@ import pickle
 import warnings
 warnings.filterwarnings('ignore')
 
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -22,17 +24,17 @@ load_dotenv()
 try:
     MODEL_NAME = os.getenv('model_name')
     PREDICTOR_NAME = os.getenv('predictor_name')
-    BATCH_SIZE = os.getenv('image_size')
-    EPOCHS = os.getenv('batch_size')
-    IMAGE_SIZE = os.getenv('epochs')
+    BATCH_SIZE = os.getenv('batch_size')
+    EPOCHS = os.getenv('epochs')
+    IMAGE_SIZE = os.getenv('image_size')
 except Exception as e:
     raise ValueError(f"Error: {e}")
 
 
 class CNNModel(object):
-    IMAGE_SIZE = 224
-    BATCH_SIZE = 32
-    EPOCHS = 50
+    IMAGE_SIZE = IMAGE_SIZE
+    BATCH_SIZE = BATCH_SIZE
+    EPOCHS = EPOCHS
 
     def __init__(self):
         self.directorios = ["train_altogrado", "train_ascus", "train_bajogrado", "train_benigna"]
@@ -55,7 +57,7 @@ class CNNModel(object):
         img = np.array(img).astype(float)/255
         img = cv2.resize(img, (224,224))
         prediccion = model.predict(img.reshape(-1, 224, 224, 3))
-        
+
         return np.argmax(prediccion[0], axis=-1)
 
     @staticmethod
@@ -198,6 +200,7 @@ class CNNModel(object):
 
         # -- INPUT SHAPE es la forma de entrada que espera el modelo, en este caso 224x224x3
 
+        print(' Construyendo el modelo p1...')
         # -- Definir el modelo secuencial
         modelo = tf.keras.Sequential([
             mobile_net_v2,
@@ -206,7 +209,7 @@ class CNNModel(object):
 
         # -- Construir el modelo con la forma de entrada esperada
         # -- El None en este caso indica que puede recibir cualquier cantidad de imagenes
-        print('Construyendo el modelo...')
+        print('Construyendo el modelo p2...')
         modelo.build((None, CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE, 3))
 
         print('Compilando el modelo...')
