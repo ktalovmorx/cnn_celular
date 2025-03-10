@@ -46,9 +46,6 @@ class CNNModel(object):
     def __init__(self):
         self.directorios = ["train_altogrado", "train_ascus", "train_bajogrado", "train_benigna"]
         self.source_folders = [("./train_altogrado", "./dataset/altogrado"), ("./train_ascus", "./dataset/ascus"), ("./train_bajogrado", "./dataset/bajogrado"), ("./train_benigna","./dataset/benigna")]
-        self.procesar_imagenes()
-        self.set_folder_minor_image_number()
-        self.create_image_generator()
 
     @staticmethod
     def load_h5_model(self, model_path:str):
@@ -241,5 +238,8 @@ class CNNModel(object):
 
 if __name__ == '__main__':
     cnn = CNNModel()
+    cnn.procesar_imagenes()
+    cnn.set_folder_minor_image_number()
+    cnn.create_image_generator()
     cnn.create_model()
     cnn.save_predictor(predictor_path=PREDICTOR_NAME)
