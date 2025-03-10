@@ -143,17 +143,6 @@ def show_citology_images(cid: int, uid: int):
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
         return redirect(url_for('get_pacient_page'))
 
-def diagnosticar(modelo:object, predictor:dict, file_path:str):
-    '''
-    Categorizar la imagen con el modelo
-    '''
-
-    # -- Realizar la predicción
-    try:
-        cat_id = CNNModel.categorizador_local(model=modelo, path=file_path)
-        return jsonify({'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
-    except Exception as e:
-        return jsonify({'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
 
 @app.route('/upload', methods=['POST'])
 @login_required
@@ -161,6 +150,19 @@ def upload_file():
     '''
     Captura y almacena los datos de la citología con múltiples imágenes
     '''
+    
+    def diagnosticar(modelo:object, predictor:dict, file_path:str):
+        '''
+        Categorizar la imagen con el modelo
+        '''
+
+        # -- Realizar la predicción
+        try:
+            cat_id = CNNModel.categorizador_local(model=modelo, path=file_path)
+            return jsonify({'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
+        except Exception as e:
+            return jsonify({'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
+    
     try:
         fecha = request.form.get('citologia-date')
         codigo = request.form.get('citologia-code')
