@@ -29,51 +29,118 @@
     </nav>
 
     <div class="container-fluid content_body" style="width:100%">
-        <div style="color:white;text-align: left;">
-            <strong>{{ pacient_user.username }} {{ pacient_user.lastname }}</strong>
-        </div>
-        
-        <!-- Carrusel -->
-        <form action="/update_cid/{{cid}}/{{uid}}" method="post" enctype="multipart/form-data" style="margin-bottom:10px">
-            <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="Indique una observación..." style="margin-bottom:10px;width:500px">{{observacion}}</textarea>
-            <button class="btn btn-success" type="submit">Actualizar</button>
-        </form>
 
-        <div id="citologias_img" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                {% for image in images %}
-                    <button type="button" data-bs-target="#citologias_img" data-bs-slide-to="{{ loop.index0 }}" class="{{ 'active' if loop.index == 1 else '' }}" title="{{ image.image_path }}"></button>
-                {% endfor %}
-            </div>
-    
-            <div class="carousel-inner">
-                {% for image in images %}
-                    <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                        <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" 
-                             class="d-block w-100 rounded" style="width:500px !important">
-    
-                        <!-- Mostrar detalles de la imagen -->
-                        <div class="carousel-caption d-none d-md-block">
-                            <p><strong>Categoría:</strong> {{ image.categoria or '-'}}</p>
-                            <p><strong>Probabilidad:</strong> {{ image.probabilidad if image.probabilidad is not none else '-' }}{% if image.probabilidad is not none %}%{% endif %}</p>
-                            <p><strong>Fecha de revisión:</strong> {{ image.fecha_revision or '-'}}</p>
-                        </div>
+        <div class="container-fluid" style="display:flex;flex-direction: row;gap:3px;justify-content: center;">
+            <div>
+                <!-- Carrusel -->
+                <div id="citologias_img" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% for image in images %}
+                            <button type="button" data-bs-target="#citologias_img" data-bs-slide-to="{{ loop.index0 }}" class="{{ 'active' if loop.index == 1 else '' }}" title="{{ image.image_path }}"></button>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+            
+                    <div class="carousel-inner">
+                        {% for image in images %}
+                            <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" 
+                                     class="d-block w-100 rounded" style="width:500px !important">
+            
+                                <!-- Mostrar detalles de la imagen -->
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p><strong>Categoría:</strong> {{ image.categoria.value or '-'}}</p>
+                                    <p><strong>Probabilidad:</strong> {{ image.probabilidad if image.probabilidad is not none else '-' }}{% if image.probabilidad is not none %}%{% endif %}</p>
+                                    <p><strong>Fecha de revisión:</strong> {{ image.fecha_revision or '-'}}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                
+                    <!-- https://icons.getbootstrap.com/ -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#citologias_img" data-bs-slide="prev">
+                        <i class="bi bi-caret-left-square-fill" style="color:red;"></i>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#citologias_img" data-bs-slide="next">
+                        <i class="bi bi-caret-right-square-fill" style="color:red;"></i>
+                    </button>
+                </div>
             </div>
-        
-            <!-- https://icons.getbootstrap.com/ -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#citologias_img" data-bs-slide="prev">
-                <i class="bi bi-caret-left-square-fill" style="color:red;"></i>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#citologias_img" data-bs-slide="next">
-                <i class="bi bi-caret-right-square-fill" style="color:red;"></i>
-            </button>
-        </div>
-    
-        <div>
-            <button onclick="window.history.back()" class="btn btn-warning" style="margin:5px;min-width:224px" 
-                    title="Regresar a las citologías del usuario">⬅️ Atrás</button>
+            <div class="cristal" style="border-radius: 8px;">
+                <div class="container" style="display: flex;flex-direction: column;justify-content: center;">
+                    <div style="color:white;text-align: left;">
+                        <strong>{{ pacient_user.username }} {{ pacient_user.lastname }}</strong>
+                    </div>
+                    <div>
+                        <form action="/update_cid/{{cid}}/{{uid}}" method="post" enctype="multipart/form-data" style="margin-bottom:10px">
+                            <textarea class="form-control" name="comment" rows="4" cols="50" placeholder="Indique una observación..." style="margin-bottom:10px;width:500px">{{observacion}}</textarea>
+                            <button class="btn btn-dark" type="submit">Actualizar</button>
+                            <button onclick="window.history.back()" class="btn btn-dark" style="margin:5px;min-width:224px" 
+                            title="Regresar a las citologías del usuario">⬅️ Atrás</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="table-responsive" style="max-height:300px">
+                    <table class="table table-hover">
+                        <thead>
+                            <th>ASCUS</th>
+                            <th>BAJOGRADO</th>
+                            <th>ALTOGRADO</th>
+                            <th>BENIGNA</th>
+                            <th>UNDEF</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="container-fluid" style="display:flex;flex-direction: column;">
+                                        {% for image in images %}
+                                            {% if image.categoria.value == 'ascus'%}
+                                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" class="rounded" style="margin:3px;width:50px">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="container-fluid" style="display:flex;flex-direction: column;">
+                                        {% for image in images %}
+                                            {% if image.categoria.value == 'bajogrado'%}
+                                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" class="rounded" style="margin:3px;width:50px">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="container-fluid" style="display:flex;flex-direction: column;">
+                                        {% for image in images %}
+                                            {% if image.categoria.value == 'altogrado'%}
+                                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" class="rounded" style="margin:3px;width:50px">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="container-fluid" style="display:flex;flex-direction: column;">
+                                        {% for image in images %}
+                                            {% if image.categoria.value == 'benigna'%}
+                                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" class="rounded" style="margin:3px;width:50px">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="container-fluid" style="display:flex;flex-direction: column;">
+                                        {% for image in images %}
+                                            {% if not image.categoria.value %}
+                                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" class="rounded" style="margin:3px;width:50px">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>    
     
