@@ -103,6 +103,21 @@ def show_citology_images(cid: int, uid: int):
         flash(f'Error al mostrar las imágenes: {str(e)}', 'error')
         return redirect(url_for('get_pacient_page'))
 
+def diagnosticar(file_path:str):
+    '''
+    Categorizar la imagen con el modelo
+    '''
+
+    # -- Cargar el modelo
+    CNNModel.load_h5_model(model_path=f'./cnn/{MODEL_NAME}')
+    predictor = CNNModel.get_predictor(predictor_path=f'./cnn/{PREDICTOR_NAME}')
+
+    # -- Realizar la predicción
+    try:
+        cat_id = CNNModel.categorizador_local(file_path)
+        return jsonify({'diagnostico': predictor[cat_id].upper()}), 200
+    except Exception as e:
+        return jsonify({'error': 'Ocurrió un error al procesar la imagen', 'details': str(e)}), 500
 
 @app.route('/upload', methods=['POST'])
 @login_required
@@ -139,7 +154,8 @@ def upload_file():
         )
 
         db.session.add(new_citologia)
-        db.session.commit()  # Guardamos la citología antes de asociar imágenes
+        # -- Confirmar la citología antes de asociar imágenes
+        db.session.commit()
 
         # -- Guardar imágenes como registros en ImagenCitologia
         for file in files:
@@ -164,9 +180,14 @@ def upload_file():
                     citologia_id=new_citologia.id,
                     image_path=real_path
                 )
+
+                # -- Categorizar la imagen usando el modelo
+                #diagnosticar(file_path=filepath)
+
                 db.session.add(new_image)
 
-        db.session.commit()  # Confirmamos todas las imágenes en la BD
+        # -- Confirmar todas las imágenes en la BD
+        db.session.commit()
 
         flash('Citología guardada con éxito', 'success')
         return redirect(url_for('get_pacient_page', uid=pacient_id))
@@ -179,39 +200,6 @@ def upload_file():
 @app.route('/static/<path:filename>')
 def static_file(filename):
     return send_from_directory(app.static_folder, filename)
-
-# Ruta para el diagnóstico
-@app.route('/pacient_diagnostic', methods=['POST', 'GET'])
-@login_required             # -- Restringe el acceso a usuarios autenticados
-def diagnosticar():
-
-    if request.method == 'GET':
-        return "<h1>En construcción...</h1>", 200
-    
-    file = request.files.get('image')
-    if not file:
-        return jsonify({'error': 'No se envió ninguna imagen'}), 400
-
-    if not allowed_file(file.filename):
-        return jsonify({'error': 'Formato de archivo no permitido'}), 400
-
-    # Guardar la imagen en la carpeta estática
-    file_path = os.path.join("static", file.filename)
-    try:
-        file.save(file_path)
-    except Exception as e:
-        return jsonify({'error': 'No se pudo guardar la imagen', 'details': str(e)}), 500
-
-    # -- Cargar el modelo
-    CNNModel.load_h5_model(model_path=f'./cnn/{MODEL_NAME}')
-    predictor = CNNModel.get_predictor(predictor_path=f'./cnn/{PREDICTOR_NAME}')
-
-    # -- Realizar la predicción
-    try:
-        cat_id = CNNModel.categorizador_local(file_path)
-        return jsonify({'diagnostico': predictor[cat_id].upper()}), 200
-    except Exception as e:
-        return jsonify({'error': 'Ocurrió un error al procesar la imagen', 'details': str(e)}), 500
 
 @app.route('/pacient_list', methods=['GET'])
 @login_required             # -- Restringe el acceso a usuarios autenticados
