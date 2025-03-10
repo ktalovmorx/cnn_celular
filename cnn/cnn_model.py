@@ -235,7 +235,6 @@ class CNNModel(object):
         print('Salvando modelo...')
         modelo.save(MODEL_NAME)
 
-
 if __name__ == '__main__':
     cnn = CNNModel()
 
