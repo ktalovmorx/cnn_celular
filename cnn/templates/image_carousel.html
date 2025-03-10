@@ -31,7 +31,7 @@
     <div class="container-fluid content_body" style="width:100%">
 
         <div class="container-fluid" style="display:flex;flex-direction: row;gap:3px;justify-content: center;flex-wrap: wrap;">
-            <div>
+            <div class="cristal" style="padding:5px;border-radius: 8px;">
                 <!-- Carrusel -->
                 <div id="citologias_img" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
@@ -43,9 +43,7 @@
                     <div class="carousel-inner">
                         {% for image in images %}
                             <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" 
-                                     class="d-block w-100 rounded" style="width:500px !important">
-            
+                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" class="d-block w-100 rounded" style="width:500px !important">
                                 <!-- Mostrar detalles de la imagen -->
                                 <div class="carousel-caption d-none d-md-block">
                                     <p><strong>Categoría:</strong> {{ image.categoria.value or '-'}}</p>
