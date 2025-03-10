@@ -150,7 +150,7 @@ def upload_file():
     '''
     Captura y almacena los datos de la citología con múltiples imágenes
     '''
-    
+
     def diagnosticar(modelo:object, predictor:dict, file_path:str):
         '''
         Categorizar la imagen con el modelo
@@ -196,9 +196,9 @@ def upload_file():
         db.session.commit()
 
         # -- Cargar el modelo y el predictor
-        predictor = CNNModel.get_predictor(path=f'./cnn/{PREDICTOR_NAME}')
+        predictor = CNNModel.get_predictor(path=PREDICTOR_NAME)
         print(predictor)
-        modelo = CNNModel.load_model(path=f'./cnn/{MODEL_NAME}')
+        modelo = CNNModel.load_model(path=MODEL_NAME)
         print('MODELO >', modelo)
 
         # -- Guardar imágenes como registros en ImagenCitologia
