@@ -81,11 +81,10 @@
                                             {% if image.categoria.value == 'ascus'%}
                                                 <span style="font-size:10px">{{image.image_name}}</span>
                                                 <span style="font-size:10px">{{image.probabilidad}}</span>
-                                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:50px">
+                                                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
                                     </div>
-
                                 </td>
                                 <td>
                                     <div class="container-fluid" style="display:flex;flex-direction: column;">
