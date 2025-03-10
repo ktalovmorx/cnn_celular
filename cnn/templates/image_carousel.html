@@ -136,7 +136,7 @@
                 </div>
                 <div class="container" style="display: flex;flex-direction: column;justify-content: center;">
                     <div style="color:white;text-align: left;">
-                        <strong>{{ pacient_user.username }} {{ pacient_user.lastname }}</strong>
+                        <strong>{{ pacient_user.username }} {{ pacient_user.lastname }} / {{pacient_user.edad}} años</strong>
                     </div>
                     <div>
                         <form action="/update_cid/{{cid}}/{{uid}}" method="post" enctype="multipart/form-data" style="margin-bottom:10px">

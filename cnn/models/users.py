@@ -32,7 +32,7 @@ class User(db.Model, UserMixin):
     phone_number = db.Column(db.String(24), nullable=True, comment="Teléfono")
     password_hash = db.Column(db.String(128), nullable=False, comment="Contraseña del usuario")
     role = db.Column(db.Enum(RoleEnum), nullable=False, default=RoleEnum.paciente, comment="Rol del usuario (paciente o doctor)")
-    birthday = db.Column(db.Date, nullable=True, comment="Fecha de nacimiento")
+    birthday = db.Column(db.Date, nullable=False, comment="Fecha de nacimiento")
     dni = db.Column(db.String(20), nullable=True, default="-", comment="DNI")
     address = db.Column(db.String(255), nullable=True, default="-", comment="Direccion")
 
