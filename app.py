@@ -156,13 +156,13 @@ def upload_file():
         Categorizar la imagen con el modelo
         '''
 
-        print(f'Categorizando {file_path}...')
+        print('Categorizando' + fr'{file_path}' + '...')
         # -- Realizar la predicción
         try:
             cat_id = CNNModel.categorizador_local(model=modelo, path=fr'{file_path}')
-            return jsonify({'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'})
+            return {'categoria': predictor[cat_id].lower(), 'status':'success', 'message':'OK'}
         except Exception as e:
-            return jsonify({'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)})
+            return {'categoria': 'Ocurrió un error al procesar la imagen', 'status': 'error', 'message':str(e)}
     
     try:
         fecha = request.form.get('citologia-date')
@@ -218,20 +218,17 @@ def upload_file():
                 else:
                     file.save(filepath)
 
+                # -- Categorizar la imagen usando el modelo
+                result = diagnosticar(modelo=modelo, predictor=predictor, file_path=filepath)
+                print(result)
+
                 # -- Guardar la imagen en la base de datos
                 _image = ImagenCitologia(
                     citologia_id=new_citologia.id,
                     image_path=real_path,
-                    image_name=real_path.split('/')[-1]
+                    image_name=real_path.split('/')[-1],
+                    categoria=result.categoria
                 )
-
-                # -- Categorizar la imagen usando el modelo
-                result = diagnosticar(modelo=modelo, predictor=predictor, file_path=filepath)
-                if result.status == 'success':
-                    print(result)
-                    _image.categoria = result.categoria
-                else:
-                    _image.categoria = None
 
                 db.session.add(_image)
 
