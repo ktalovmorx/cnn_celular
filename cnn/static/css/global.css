@@ -84,3 +84,12 @@ body{
         opacity: 1;
     }
 }
+
+/* Efecto para miniimagenes*/
+.mini_image {
+    transition: transform 0.3s ease-in-out;
+}
+
+.mini_image:hover {
+    transform: scale(1.1);
+}
