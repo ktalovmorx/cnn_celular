@@ -80,7 +80,7 @@
                                             {% if image.categoria.value == 'ascus'%}
                                                 <span style="font-size:10px;font-weight:bold" class="text-center">{{image.image_name}}</span>
                                                 <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
-                                                <img class="mini_image" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
+                                                <img class="mini_image rounded" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -91,7 +91,7 @@
                                             {% if image.categoria.value == 'bajogrado'%}
                                                 <span style="font-size:10px;font-weight:bold" class="text-center">{{image.image_name}}</span>
                                                 <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
-                                                <img class="mini_image" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
+                                                <img class="mini_image rounded" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -102,7 +102,7 @@
                                             {% if image.categoria.value == 'altogrado'%}
                                                 <span style="font-size:10px;font-weight:bold" class="text-center">{{image.image_name}}</span>
                                                 <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
-                                                <img class="mini_image" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
+                                                <img class="mini_image rounded" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -113,7 +113,7 @@
                                             {% if image.categoria.value == 'benigna'%}
                                                 <span style="font-size:10px;font-weight:bold" class="text-center">{{image.image_name}}</span>
                                                 <span style="font-size:10px" class="text-center">{{image.probabilidad}}</span>
-                                                <img class="mini_image" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
+                                                <img class="mini_image rounded" src="{{ url_for('static', filename=image.image_path) }}" alt="Imagen {{ loop.index }}" style="margin:3px;width:100px">
                                             {% endif %}
                                         {% endfor %}
                                     </div>
