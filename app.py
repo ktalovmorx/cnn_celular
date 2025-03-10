@@ -159,10 +159,10 @@ def upload_file():
         print('Categorizando' + fr'{file_path}' + '...')
         # -- Realizar la predicción
         try:
-            cat_id = CNNModel.categorizador_local(model=modelo, path=fr'{file_path}')
-            return {'prediccion': predictor[cat_id].lower(), 'status':True, 'message':'OK'}
+            cat_id, max_val = CNNModel.categorizador_local(model=modelo, path=fr'{file_path}')
+            return {'prediccion': predictor[cat_id].lower(), 'probabilidad':max_val, 'status':True, 'message':'OK'}
         except Exception as e:
-            return {'prediccion': 'Ocurrió un error al procesar la imagen', 'status': False, 'message':str(e)}
+            return {'prediccion': 'Ocurrió un error al procesar la imagen', 'probabilidad':0, 'status': False, 'message':str(e)}
     
     try:
         fecha = request.form.get('citologia-date')
@@ -227,7 +227,8 @@ def upload_file():
                     citologia_id=new_citologia.id,
                     image_path=real_path,
                     image_name=real_path.split('/')[-1],
-                    categoria=result.get('prediccion') if result.get('status') else None
+                    categoria=result.get('prediccion') if result.get('status') else None,
+                    probabilidad=round( float(result.get('probabilidad')), 2)
                 )
 
                 db.session.add(_image)

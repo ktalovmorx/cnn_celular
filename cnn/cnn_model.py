@@ -62,7 +62,7 @@ class CNNModel(object):
         img = cv2.resize(img, (CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE))
         prediccion = model.predict(img.reshape(-1, CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE, 3))
 
-        return np.argmax(prediccion[0], axis=-1)
+        return np.argmax(prediccion[0], axis=-1), max(prediccion[0])
 
     @staticmethod
     def categorizador_local(model:object, path:str) -> int:
@@ -71,7 +71,7 @@ class CNNModel(object):
         img = cv2.resize(img, (CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE))
         prediccion = model.predict(img.reshape(-1, CNNModel.IMAGE_SIZE, CNNModel.IMAGE_SIZE, 3))
 
-        return np.argmax(prediccion[0], axis=-1)
+        return np.argmax(prediccion[0], axis=-1), max(prediccion[0])
 
     @staticmethod
     def redimensiona_imagen(image_path:str) -> None:
