@@ -91,3 +91,13 @@ body{
 .mini_image:hover {
     transform: scale(1.1);
 }
+
+/* Truncar direcciones*/
+
+.text-truncate {
+    display: inline-block;
+    max-width: 150px; /* Ajusta según necesidad */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
