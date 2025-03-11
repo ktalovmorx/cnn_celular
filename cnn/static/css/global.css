@@ -55,6 +55,7 @@ body{
     text-align: center;
     transition: transform 1s ease;
 }
+
 .app_title:hover{
     cursor:pointer;
     text-decoration: none;
