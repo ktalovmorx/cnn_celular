@@ -279,6 +279,42 @@ def get_pacient_page(uid=None):
     citologias = Citologia.query.filter_by(user_id=pacient_user.id).all()
     return render_template('pacient_page.html', doctor=current_user, user=pacient_user, user_role=current_user.role.value, citologias=citologias)
 
+@app.route('/update_user/<int:uid>', methods=['POST', 'GET'])
+@login_required
+def update_user(uid:int):
+    '''
+    Actualiza datos de usuario
+    '''
+
+    # -- Obtener el usuario que tiene el id indicado
+    user = User.query.get(uid)
+
+    if not user:
+        flash('Usuario no encontrado', 'error')
+        return redirect(url_for('get_pacient_page', uid=user.id))
+
+    if request.method == 'GET':
+        return redirect(url_for('get_pacient_page', uid=user.id))
+
+    # -- Intentar obtener los datos desde JSON o Form
+    data = request.get_json() if request.is_json else request.form
+    dni = data.get('dni', user.dni)
+    address = data.get('address', user.address)
+    phone_number = data.get('phone_number', user.phone_number)
+
+    try:
+        user.dni = dni
+        user.address = address
+        user.phone_number = phone_number
+
+        db.session.commit()
+        flash('Datos actualizados correctamente', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error al actualizar los datos: {str(e)}', 'error')
+
+    return redirect(url_for('get_pacient_page', uid=user.id))
+    
 @app.route('/register', methods=['POST', 'GET'])
 @login_required
 def new_account():
