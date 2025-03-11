@@ -33,7 +33,7 @@
         <div class="container-fluid" style="display:flex;flex-direction: row;gap:3px;justify-content: center;flex-wrap: wrap;">
             <div class="cristal" style="padding:5px;border-radius: 8px;">
                 <!-- Carrusel -->
-                <div id="citologias_img" class="carousel slide" data-bs-ride="carousel">
+                <div id="citologias_img" class="carousel slide" data-bs-ride="false">
                     <div class="carousel-indicators">
                         {% for image in images %}
                             <button type="button" data-bs-target="#citologias_img" data-bs-slide-to="{{ loop.index0 }}" class="{{ 'active' if loop.index == 1 else '' }}" title="{{ image.image_path }}"></button>
