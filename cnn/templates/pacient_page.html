@@ -47,7 +47,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <strong>Paciente</strong><input class="form-control" type="text" value="{{ user.username }}" disabled>
+                                    <strong>Paciente</strong><input class="form-control" type="text" value="{{ user.username + ' ' + user.lastname }}" disabled>
                                 </td>
                                 <td>
                                     <strong>DNI</strong><input class="form-control" type="text" id="dni" name="dni" placeholder="ID" value="{{ user.dni }}">
