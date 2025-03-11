@@ -53,14 +53,14 @@
                         {% for paciente in pacientes %}
                             <tr>
                                 <td><a style="cursor:pointer;text-decoration: none;" href="/pacient_page/{{paciente.id}}" title="Haga click para ver esta citología"> Ver 🔎</a></td>
-                                <td>{{ paciente.username }}</td>
-                                <td>{{ paciente.lastname }}</td>
-                                <td>{{ paciente.usermail }}</td>
-                                <td>{{ paciente.phone_number }}</td>
-                                <td>{{ paciente.birthday }}</td>
-                                <td>{{ paciente.calcular_edad() }}</td>
-                                <td>{{ paciente.dni }}</td>
-                                <td>{{ paciente.address }}</td>
+                                <td><span>{{ paciente.username }}</span></td>
+                                <td><span>{{ paciente.lastname }}</span></td>
+                                <td><span>{{ paciente.usermail }}</span></td>
+                                <td><span>{{ paciente.phone_number }}</span></td>
+                                <td><span>{{ paciente.birthday }}</span></td>
+                                <td><span>{{ paciente.calcular_edad() }}</span></td>
+                                <td><span>{{ paciente.dni }}</span></td>
+                                <td><span title="{{paciente.address}}">{{ paciente.address }}</span></td>
                             </tr>
                         {% endfor %}
                     </tbody>
