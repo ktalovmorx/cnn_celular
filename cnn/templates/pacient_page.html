@@ -152,8 +152,7 @@
                                     <td>{{ citologia.observacion }}</td>
                                     <td><button class="btn btn-dark btn-sm">Descargar</button></td>
                                     <td>
-                                        <form action="{{ url_for('delete_citologia', cid=citologia.id) }}" method="POST"
-                                              onsubmit="return confirm('¿Seguro que deseas eliminar esta citología?');">
+                                        <form action="{{ url_for('delete_citologia', cid=citologia.id) }}" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar esta citología?');">
                                             <button type="submit" class="btn btn-danger">❌</button>
                                         </form>
                                     </td>
