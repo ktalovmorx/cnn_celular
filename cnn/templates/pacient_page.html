@@ -58,21 +58,27 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <span><strong>Historial:</strong>-</span>
+                                    <span>
+                                        <strong>Historial:</strong>-
+                                    </span>
                                 </td>
                                 <td>
                                     <strong>Telefono:</strong><input class="form-control" type="number" id="phone_number" name="phone_number" value="{{ user.phone_number }}">
                                 </td>
                                 <td>
-                                    <span><strong>Email:</strong>{{ user.usermail }}</span>
+                                    <span>
+                                        <strong>Email:</strong>{{ user.usermail }}
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span><strong>Edad:</strong>{{user.calcular_edad()}}</span>
+                                    <span>
+                                        <strong>Edad:</strong>{{user.calcular_edad()}}
+                                    </span>
                                 </td>
                                 <td colspan="2">
-                                    <button class="btn btn-success w-100" type="submit" title="Actualizar los datos del usuario">Actualizar</button>
+                                    <button class="btn btn-success btn-sm w-100" type="submit" title="Actualizar los datos del usuario">Actualizar</button>
                                 </td>
                             </tr>
                         </tbody>
