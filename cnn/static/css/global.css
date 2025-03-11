@@ -65,11 +65,11 @@ body{
 /* Efecto flecha centellante */
 .arrow {
     position: relative;
-    top: 100px; /* Ajusta según sea necesario */
+    top: 100px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 30px;
-    animation: blink 1s infinite alternate; /* Alterna el parpadeo */
+    animation: blink 1s infinite alternate;
     margin-top: 10px;
 }
 
