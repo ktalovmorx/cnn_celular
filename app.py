@@ -259,6 +259,27 @@ def get_pacient_list():
 
     return render_template('pacient_list.html', user=current_user, pacientes=pacientes)
 
+@app.route('/delete_cito/<int:cid>', methods=['POST'])
+@login_required
+def delete_citologia(cid: int):
+    '''
+    Borra una citología con seguridad
+    '''
+
+    # -- Devuelve 404 si no existe
+    cito = Citologia.query.get_or_404(cid)
+
+    try:
+        db.session.delete(cito)
+        db.session.commit()
+        flash('Citología eliminada correctamente', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error al eliminar la citología: {str(e)}', 'error')
+
+    return redirect(request.referrer or url_for('dashboard'))
+
+
 @app.route('/pacient_page/<int:uid>', methods=['GET'])
 @app.route('/pacient_page', methods=['GET'])
 # -- Restringe el acceso a usuarios autenticados
